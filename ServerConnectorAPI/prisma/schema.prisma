@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  token     String   @db.LongText
+
+  @@map("users")
+}
+
+model Log {
+  id       Int       @id @default(autoincrement())
+  severity ESeverity
+  message  String    @db.LongText()
+  date     DateTime  @default(now())
+  user     String    @default("System")
+
+  @@map("logs")
+}
+
+enum ESeverity {
+  Critical
+  Error
+  Warning
+  Information
+}

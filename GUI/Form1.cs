@@ -13,6 +13,8 @@ namespace GUI
             isConnectedLabel.ForeColor = Color.Red;
 
             logOutButton.Enabled = false;
+
+
         }
 
         private void addFile_Click(object sender, EventArgs e)
