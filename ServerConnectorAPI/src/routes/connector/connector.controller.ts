@@ -21,8 +21,6 @@ export class ConnectorController {
     try {
       res["responseInformation"] = responseInformation;
 
-      console.log("request");
-
       return await this.connectorService.getFiles(body);
 
     } catch (error) {

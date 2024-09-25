@@ -39,7 +39,7 @@ export class ConnectorService {
         date: "" + stat.birthtime.toISOString(),
         group: "",
         hardLinkCount: 0,
-        owner: "",
+        owner: ""+stat.uid,
         privilege: ""+permissions,
         sizeInBytes: Number("" + stat.size)
       });
