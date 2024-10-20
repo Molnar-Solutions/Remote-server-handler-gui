@@ -15,6 +15,7 @@ import {
 import { ConnectorService } from './connector.service';
 import {
   ConnectorGetFilesModel,
+  ConnectorGetSystemHealth,
   ConnectorRemoveFile,
   ConnectorUploadFile,
 } from '../../models/connector.model';
@@ -102,6 +103,27 @@ export class ConnectorController {
       const fileData = fs.readFileSync(filePath).toJSON();
 
       response.Data = fileData;
+
+      return response;
+    } catch (error) {
+      response.StatusCode = 400;
+      response.Message = error.message;
+
+      return response;
+    }
+  }
+
+  @Post('system-health')
+  async SystemHealth(@Body() body: ConnectorGetSystemHealth) {
+    let response = {
+      StatusCode: 200,
+      Message: '',
+      Data: null,
+      Date: new Date(),
+    };
+
+    try {
+      response.Data = await this.connectorService.getSystemHealth(body);
 
       return response;
     } catch (error) {

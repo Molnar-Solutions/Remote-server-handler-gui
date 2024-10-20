@@ -34,3 +34,9 @@ export class ConnectorDownloadFile {
   @IsString()
   fileName: string;
 }
+
+export class ConnectorGetSystemHealth {
+  @IsNotEmpty()
+  @IsString()
+  userName: string;
+}

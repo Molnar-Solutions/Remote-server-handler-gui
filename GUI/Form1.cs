@@ -12,6 +12,7 @@ namespace GUI
     public partial class MainForm : Form
     {
         private FileManager _fileManager;
+        private SystemHealth _systemHealth;
 
         public MainForm()
         {
@@ -56,6 +57,12 @@ namespace GUI
 
         private void fileManagerButton_Click(object sender, EventArgs e)
         {
+            /* User is logged in or not */
+            if (ApplicationStateManager.getInstance().getState().userData is null)
+            {
+                return;
+            }
+
             consolePanel.Hide();
             systemHealthPanel.Hide();
             fileManagerPanel.Show();
@@ -66,9 +73,31 @@ namespace GUI
 
         private void systemHealthButton_Click(object sender, EventArgs e)
         {
+            /* User is logged in or not */
+            if (ApplicationStateManager.getInstance().getState().userData is null)
+            {
+                return;
+            }
+
             fileManagerPanel.Hide();
             consolePanel.Hide();
             systemHealthPanel.Show();
+
+            /* Update system informations */
+            /* Order is very important! */
+            string userName = ApplicationStateManager.getInstance().getState().userData.name;
+            _systemHealth = new SystemHealth(ref systemWarningErrorTable, userName);
+
+            /* Set ref values */
+            _systemHealth.SetTextBoxRef(ref systemOsTypeTextBox, LabelType.OS_TYPE);
+            _systemHealth.SetTextBoxRef(ref architectureTextBox, LabelType.ARCHITECTURE);
+            _systemHealth.SetTextBoxRef(ref cpuUsageTextBox4, LabelType.CPU_USAGE);
+            _systemHealth.SetTextBoxRef(ref availableMemoryTextBox, LabelType.OS_AVAILABLE_MEMORY);
+            _systemHealth.SetTextBoxRef(ref availableStorageTextBox, LabelType.OS_AVAILABLE_STORAGE);
+            _systemHealth.SetTextBoxRef(ref totalMemoryTextBox, LabelType.OS_TOTAL_MEMORY);
+
+            /* Process response from the server */
+            _systemHealth._loadSystemInformations();
         }
 
         private void consoleButton_Click(object sender, EventArgs e)

@@ -71,7 +71,6 @@
             loggedInDateLabel = new Label();
             applicationLogo = new Button();
             logOutButton = new Button();
-            consoleButton = new Button();
             consolePanel = new Panel();
             submitConsoleCommand = new Button();
             consoleCommandTextBox = new TextBox();
@@ -80,6 +79,7 @@
             apiUrlTextBox = new TextBox();
             label15 = new Label();
             label16 = new Label();
+            logInformationColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)filesDataTable).BeginInit();
             fileManagerPanel.SuspendLayout();
             systemHealthPanel.SuspendLayout();
@@ -304,6 +304,7 @@
             // systemWarningErrorTable
             // 
             systemWarningErrorTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            systemWarningErrorTable.Columns.AddRange(new DataGridViewColumn[] { logInformationColumn });
             systemWarningErrorTable.Enabled = false;
             systemWarningErrorTable.Location = new Point(17, 231);
             systemWarningErrorTable.Name = "systemWarningErrorTable";
@@ -469,16 +470,6 @@
             logOutButton.UseVisualStyleBackColor = true;
             logOutButton.Click += logOutButton_Click;
             // 
-            // consoleButton
-            // 
-            consoleButton.Location = new Point(12, 156);
-            consoleButton.Name = "consoleButton";
-            consoleButton.Size = new Size(94, 23);
-            consoleButton.TabIndex = 17;
-            consoleButton.Text = "Console";
-            consoleButton.UseVisualStyleBackColor = true;
-            consoleButton.Click += consoleButton_Click;
-            // 
             // consolePanel
             // 
             consolePanel.Controls.Add(submitConsoleCommand);
@@ -551,15 +542,20 @@
             label16.TabIndex = 19;
             label16.Text = "Beállítások";
             // 
+            // logInformationColumn
+            // 
+            logInformationColumn.HeaderText = "Log information";
+            logInformationColumn.MinimumWidth = 2500;
+            logInformationColumn.Name = "logInformationColumn";
+            logInformationColumn.Width = 2500;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(983, 622);
-            Controls.Add(fileManagerPanel);
             Controls.Add(label16);
             Controls.Add(label15);
-            Controls.Add(consoleButton);
             Controls.Add(logOutButton);
             Controls.Add(applicationLogo);
             Controls.Add(loggedInDateLabel);
@@ -577,8 +573,9 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(consolePanel);
             Controls.Add(systemHealthPanel);
+            Controls.Add(fileManagerPanel);
+            Controls.Add(consolePanel);
             Cursor = Cursors.Hand;
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "MainForm";
@@ -632,7 +629,6 @@
         private Label loggedInDateLabel;
         private Button applicationLogo;
         private Button logOutButton;
-        private Button consoleButton;
         private Panel consolePanel;
         private Button submitConsoleCommand;
         private TextBox consoleCommandTextBox;
@@ -647,5 +643,6 @@
         private DataGridViewTextBoxColumn dateColumn;
         private DataGridViewTextBoxColumn privilegeColumn;
         private Button refreshFileContents;
+        private DataGridViewTextBoxColumn logInformationColumn;
     }
 }
