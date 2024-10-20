@@ -3,3 +3,4 @@ GUI/bin
 GUI/obj
 ServerConnectorAPI/.idea
 ServerConnectorAPI/node_modules
+ServerConnectorAPI/data

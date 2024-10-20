@@ -24,5 +24,10 @@ namespace GUI.model
 
             return _instance;
         }
+
+        public ApplicationState getState()
+        {
+            return _state;
+        }
     }
 }

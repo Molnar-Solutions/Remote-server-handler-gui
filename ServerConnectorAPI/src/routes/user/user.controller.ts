@@ -1,49 +1,88 @@
 import {
-    BadRequestException,
-    Body,
-    Controller,
-    Post,
-    UseGuards,
-    ValidationPipe
+  BadRequestException,
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
-import {UserLoginDto} from "../../dtos/user.dto";
-import {UserService} from "./user.service";
-import {PublicGuard} from "../../guards/public/public.guard";
-import handleIncomingError from "../../utils/ErrorManager";
-import {AuthGuard} from "../../guards/auth/auth.guard";
+import { UserLoginDto } from '../../dtos/user.dto';
+import { UserService } from './user.service';
+import { AuthGuard } from '../../guards/auth/auth.guard';
 
 @Controller('user')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
-    @UseGuards(PublicGuard)
-    @Post("sign-in")
-    signIn(@Body(ValidationPipe) user: UserLoginDto) {
-        try {
-            return this.userService.signIn(user);
-        } catch (error) {
-            handleIncomingError(error)
-        }
-    }
+  @Post('sign-in')
+  async signIn(@Body(ValidationPipe) user: UserLoginDto) {
+    let response = {
+      StatusCode: 200,
+      Message: '',
+      Data: null,
+      Date: new Date(),
+    };
 
-    @UseGuards(AuthGuard)
-    @Post("sign-out")
-    signOut(@Body("token") token: string) {
-        try {
-            return this.userService.signOut(token);
-        } catch (error) {
-            handleIncomingError(error)
-        }
-    }
+    try {
+      response.Data = {
+        ...(await this.userService.signIn(user)),
+      };
 
-    @UseGuards(AuthGuard)
-    @Post("loggedin")
-    isLoggedIn(@Body("token") token: string) {
-        try {
-            if (!token) throw new BadRequestException("Hiba! Token megadása szükséges!");
-            return this.userService.isLoggedIn(token);
-        } catch (error) {
-            handleIncomingError(error)
-        }
+      return response;
+    } catch (error) {
+      response.StatusCode = 400;
+      response.Message = error.message;
     }
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('sign-out')
+  async signOut(@Body('token') token: string) {
+    let response = {
+      StatusCode: 200,
+      Message: '',
+      Data: null,
+      Date: new Date(),
+    };
+
+    try {
+      let res = await this.userService.signOut(token);
+
+      response.Data = {
+        ...res,
+      };
+
+      return response;
+    } catch (error) {
+      response.StatusCode = 400;
+      response.Message = error.message;
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('loggedin')
+  async isLoggedIn(@Body('token') token: string) {
+    let response = {
+      StatusCode: 200,
+      Message: '',
+      Data: null,
+      Date: new Date(),
+    };
+
+    try {
+      if (!token)
+        throw new BadRequestException('Hiba! Token megadása szükséges!');
+
+      let res = await this.userService.isLoggedIn(token);
+
+      response.Data = {
+        ...res,
+      };
+
+      return response;
+    } catch (error) {
+      response.StatusCode = 400;
+      response.Message = error.message;
+    }
+  }
 }

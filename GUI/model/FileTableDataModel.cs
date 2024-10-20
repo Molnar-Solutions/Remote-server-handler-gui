@@ -16,4 +16,14 @@ namespace GUI.model
         public string date { get; set; }
         public string fileName { get; set; }
     }
+
+    public record struct GetFilesDto(
+        string userName,
+        string? excludedDirectories
+    );
+
+    public record struct CreateFileDto(
+        string userName,
+        string fileName
+    );
 }

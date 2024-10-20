@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class ConnectorGetFilesModel {
   @IsNotEmpty()
@@ -6,4 +6,13 @@ export class ConnectorGetFilesModel {
   userName: string;
   @IsOptional()
   excludedDirectories?: string;
+}
+
+export class ConnectorUploadFile {
+  @IsNotEmpty()
+  @IsString()
+  userName: string;
+  @IsNotEmpty()
+  @IsString()
+  fileName: string;
 }

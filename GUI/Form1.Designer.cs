@@ -29,10 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            apiUrlTextBox = new TextBox();
             apiUsernameTextBox = new TextBox();
             apiPasswordTextBox = new TextBox();
             fileManagerButton = new Button();
@@ -72,6 +70,10 @@
             submitConsoleCommand = new Button();
             consoleCommandTextBox = new TextBox();
             consoleTextBox = new RichTextBox();
+            label1 = new Label();
+            apiUrlTextBox = new TextBox();
+            label15 = new Label();
+            label16 = new Label();
             ((System.ComponentModel.ISupportInitialize)filesDataTable).BeginInit();
             fileManagerPanel.SuspendLayout();
             systemHealthPanel.SuspendLayout();
@@ -79,53 +81,38 @@
             consolePanel.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 20);
-            label1.Name = "label1";
-            label1.Size = new Size(52, 15);
-            label1.TabIndex = 0;
-            label1.Text = "API URL:";
-            // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(259, 23);
+            label2.Location = new Point(630, 38);
             label2.Name = "label2";
-            label2.Size = new Size(63, 15);
+            label2.Size = new Size(44, 15);
             label2.TabIndex = 1;
-            label2.Text = "Username:";
+            label2.Text = "E-mail:";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(517, 26);
+            label3.Location = new Point(614, 65);
             label3.Name = "label3";
             label3.Size = new Size(60, 15);
             label3.TabIndex = 1;
             label3.Text = "Password:";
-            // 
-            // apiUrlTextBox
-            // 
-            apiUrlTextBox.Location = new Point(70, 20);
-            apiUrlTextBox.Name = "apiUrlTextBox";
-            apiUrlTextBox.Size = new Size(183, 23);
-            apiUrlTextBox.TabIndex = 2;
+            label3.Click += label3_Click;
             // 
             // apiUsernameTextBox
             // 
-            apiUsernameTextBox.Location = new Point(328, 23);
+            apiUsernameTextBox.Location = new Point(680, 33);
             apiUsernameTextBox.Name = "apiUsernameTextBox";
-            apiUsernameTextBox.Size = new Size(183, 23);
+            apiUsernameTextBox.Size = new Size(209, 23);
             apiUsernameTextBox.TabIndex = 2;
             // 
             // apiPasswordTextBox
             // 
-            apiPasswordTextBox.Location = new Point(583, 26);
+            apiPasswordTextBox.Location = new Point(680, 62);
             apiPasswordTextBox.Name = "apiPasswordTextBox";
             apiPasswordTextBox.PasswordChar = '*';
-            apiPasswordTextBox.Size = new Size(183, 23);
+            apiPasswordTextBox.Size = new Size(209, 23);
             apiPasswordTextBox.TabIndex = 2;
             // 
             // fileManagerButton
@@ -307,7 +294,7 @@
             label8.AutoSize = true;
             label8.Location = new Point(13, 124);
             label8.Name = "label8";
-            label8.Size = new Size(83, 15);
+            label8.Size = new Size(84, 15);
             label8.TabIndex = 2;
             label8.Text = "Total memory:";
             // 
@@ -343,18 +330,19 @@
             label4.AutoSize = true;
             label4.Location = new Point(13, 8);
             label4.Name = "label4";
-            label4.Size = new Size(52, 15);
+            label4.Size = new Size(53, 15);
             label4.TabIndex = 0;
             label4.Text = "OS Type:";
             // 
             // signInButton
             // 
-            signInButton.Location = new Point(901, 26);
+            signInButton.Location = new Point(895, 34);
             signInButton.Name = "signInButton";
-            signInButton.Size = new Size(70, 23);
+            signInButton.Size = new Size(75, 23);
             signInButton.TabIndex = 8;
             signInButton.Text = "Sign In";
             signInButton.UseVisualStyleBackColor = true;
+            signInButton.Click += signInButton_Click;
             // 
             // label12
             // 
@@ -426,12 +414,13 @@
             // 
             // logOutButton
             // 
-            logOutButton.Location = new Point(820, 26);
+            logOutButton.Location = new Point(895, 63);
             logOutButton.Name = "logOutButton";
             logOutButton.Size = new Size(75, 23);
             logOutButton.TabIndex = 16;
             logOutButton.Text = "Sign Out";
             logOutButton.UseVisualStyleBackColor = true;
+            logOutButton.Click += logOutButton_Click;
             // 
             // consoleButton
             // 
@@ -479,11 +468,49 @@
             consoleTextBox.TabIndex = 0;
             consoleTextBox.Text = "";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(13, 42);
+            label1.Name = "label1";
+            label1.Size = new Size(52, 15);
+            label1.TabIndex = 0;
+            label1.Text = "API URL:";
+            // 
+            // apiUrlTextBox
+            // 
+            apiUrlTextBox.Location = new Point(70, 39);
+            apiUrlTextBox.Name = "apiUrlTextBox";
+            apiUrlTextBox.Size = new Size(183, 23);
+            apiUrlTextBox.TabIndex = 2;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label15.Location = new Point(711, 5);
+            label15.Name = "label15";
+            label15.Size = new Size(131, 25);
+            label15.TabIndex = 18;
+            label15.Text = "Bejelentkezés";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label16.Location = new Point(70, 9);
+            label16.Name = "label16";
+            label16.Size = new Size(107, 25);
+            label16.TabIndex = 19;
+            label16.Text = "Beállítások";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(983, 620);
+            ClientSize = new Size(983, 622);
+            Controls.Add(label16);
+            Controls.Add(label15);
             Controls.Add(consoleButton);
             Controls.Add(logOutButton);
             Controls.Add(applicationLogo);
@@ -522,11 +549,8 @@
         }
 
         #endregion
-
-        private Label label1;
         private Label label2;
         private Label label3;
-        private TextBox apiUrlTextBox;
         private TextBox apiUsernameTextBox;
         private TextBox apiPasswordTextBox;
         private Button fileManagerButton;
@@ -566,5 +590,9 @@
         private Button submitConsoleCommand;
         private TextBox consoleCommandTextBox;
         private RichTextBox consoleTextBox;
+        private Label label1;
+        private TextBox apiUrlTextBox;
+        private Label label15;
+        private Label label16;
     }
 }
