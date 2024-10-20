@@ -16,3 +16,21 @@ export class ConnectorUploadFile {
   @IsString()
   fileName: string;
 }
+
+export class ConnectorRemoveFile {
+  @IsNotEmpty()
+  @IsString()
+  userName: string;
+  @IsNotEmpty()
+  @IsString()
+  fileName: string;
+}
+
+export class ConnectorDownloadFile {
+  @IsNotEmpty()
+  @IsString()
+  userName: string;
+  @IsNotEmpty()
+  @IsString()
+  fileName: string;
+}

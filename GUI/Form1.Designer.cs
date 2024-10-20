@@ -35,10 +35,16 @@
             apiPasswordTextBox = new TextBox();
             fileManagerButton = new Button();
             filesDataTable = new DataGridView();
+            fileNameCount = new DataGridViewTextBoxColumn();
+            ownerColumn = new DataGridViewTextBoxColumn();
+            sizeInBytesColumn = new DataGridViewTextBoxColumn();
+            dateColumn = new DataGridViewTextBoxColumn();
+            privilegeColumn = new DataGridViewTextBoxColumn();
             addFile = new Button();
             removeSelectedFile = new Button();
             downloadSelectedFile = new Button();
             fileManagerPanel = new Panel();
+            refreshFileContents = new Button();
             systemHealthButton = new Button();
             systemHealthPanel = new Panel();
             availableStorageTextBox = new TextBox();
@@ -128,10 +134,38 @@
             // filesDataTable
             // 
             filesDataTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            filesDataTable.Location = new Point(137, 3);
+            filesDataTable.Columns.AddRange(new DataGridViewColumn[] { fileNameCount, ownerColumn, sizeInBytesColumn, dateColumn, privilegeColumn });
+            filesDataTable.Location = new Point(137, 32);
             filesDataTable.Name = "filesDataTable";
-            filesDataTable.Size = new Size(712, 517);
+            filesDataTable.Size = new Size(712, 482);
             filesDataTable.TabIndex = 0;
+            // 
+            // fileNameCount
+            // 
+            fileNameCount.HeaderText = "File name";
+            fileNameCount.MinimumWidth = 400;
+            fileNameCount.Name = "fileNameCount";
+            fileNameCount.Width = 400;
+            // 
+            // ownerColumn
+            // 
+            ownerColumn.HeaderText = "Owner";
+            ownerColumn.Name = "ownerColumn";
+            // 
+            // sizeInBytesColumn
+            // 
+            sizeInBytesColumn.HeaderText = "Size in bytes";
+            sizeInBytesColumn.Name = "sizeInBytesColumn";
+            // 
+            // dateColumn
+            // 
+            dateColumn.HeaderText = "Created At";
+            dateColumn.Name = "dateColumn";
+            // 
+            // privilegeColumn
+            // 
+            privilegeColumn.HeaderText = "Privilege";
+            privilegeColumn.Name = "privilegeColumn";
             // 
             // addFile
             // 
@@ -151,6 +185,7 @@
             removeSelectedFile.TabIndex = 5;
             removeSelectedFile.Text = "[-] Remove file";
             removeSelectedFile.UseVisualStyleBackColor = true;
+            removeSelectedFile.Click += removeSelectedFile_Click;
             // 
             // downloadSelectedFile
             // 
@@ -160,9 +195,11 @@
             downloadSelectedFile.TabIndex = 5;
             downloadSelectedFile.Text = "[↓] Download file";
             downloadSelectedFile.UseVisualStyleBackColor = true;
+            downloadSelectedFile.Click += downloadSelectedFile_Click;
             // 
             // fileManagerPanel
             // 
+            fileManagerPanel.Controls.Add(refreshFileContents);
             fileManagerPanel.Controls.Add(addFile);
             fileManagerPanel.Controls.Add(filesDataTable);
             fileManagerPanel.Controls.Add(downloadSelectedFile);
@@ -172,6 +209,16 @@
             fileManagerPanel.Size = new Size(849, 517);
             fileManagerPanel.TabIndex = 6;
             fileManagerPanel.Paint += fileManagerPanel_Paint;
+            // 
+            // refreshFileContents
+            // 
+            refreshFileContents.Location = new Point(771, 4);
+            refreshFileContents.Name = "refreshFileContents";
+            refreshFileContents.Size = new Size(75, 23);
+            refreshFileContents.TabIndex = 6;
+            refreshFileContents.Text = "Refresh";
+            refreshFileContents.UseVisualStyleBackColor = true;
+            refreshFileContents.Click += refreshFileContents_Click;
             // 
             // systemHealthButton
             // 
@@ -509,6 +556,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(983, 622);
+            Controls.Add(fileManagerPanel);
             Controls.Add(label16);
             Controls.Add(label15);
             Controls.Add(consoleButton);
@@ -529,7 +577,6 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(fileManagerPanel);
             Controls.Add(consolePanel);
             Controls.Add(systemHealthPanel);
             Cursor = Cursors.Hand;
@@ -594,5 +641,11 @@
         private TextBox apiUrlTextBox;
         private Label label15;
         private Label label16;
+        private DataGridViewTextBoxColumn fileNameCount;
+        private DataGridViewTextBoxColumn ownerColumn;
+        private DataGridViewTextBoxColumn sizeInBytesColumn;
+        private DataGridViewTextBoxColumn dateColumn;
+        private DataGridViewTextBoxColumn privilegeColumn;
+        private Button refreshFileContents;
     }
 }

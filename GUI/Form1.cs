@@ -12,7 +12,6 @@ namespace GUI
     public partial class MainForm : Form
     {
         private FileManager _fileManager;
-        private DataTable _filesDataTable;
 
         public MainForm()
         {
@@ -36,7 +35,13 @@ namespace GUI
 
         private void addFile_Click(object sender, EventArgs e)
         {
-            _fileManager.addFile(ApplicationStateManager.getInstance().getState().userData.name, _filesDataTable);
+            /* User is logged in or not */
+            if (ApplicationStateManager.getInstance().getState().userData is null)
+            {
+                return;
+            }
+
+            _fileManager.addFile(ApplicationStateManager.getInstance().getState().userData.name, filesDataTable);
         }
 
         private void fileManagerPanel_Paint(object sender, PaintEventArgs e)
@@ -54,6 +59,9 @@ namespace GUI
             consolePanel.Hide();
             systemHealthPanel.Hide();
             fileManagerPanel.Show();
+
+            /* Update file table contents */
+            refreshFileContents_Click(sender, e);
         }
 
         private void systemHealthButton_Click(object sender, EventArgs e)
@@ -125,17 +133,11 @@ namespace GUI
                 isConnectedLabel.ForeColor = Color.Green;
             }
 
-            /* Create table for files */
-            _filesDataTable = new DataTable();
-
             /* Make visible the file manager panel */
             fileManagerPanel.Show();
 
             /* Setup files section */
-            _fileManager = new FileManager(ref _filesDataTable, ApplicationStateManager.getInstance().getState().userData.name);
-
-            /* Set table source */
-            filesDataTable.DataSource = _filesDataTable;
+            _fileManager = new FileManager(ref filesDataTable, ApplicationStateManager.getInstance().getState().userData.name);
         }
 
         private void logOutButton_Click(object sender, EventArgs e)
@@ -167,6 +169,44 @@ namespace GUI
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void refreshFileContents_Click(object sender, EventArgs e)
+        {
+            /* User is logged in or not */
+            if (ApplicationStateManager.getInstance().getState().userData is null)
+            {
+                return;
+            }
+
+            /* I do not think it is neccessary but it looks good :) */
+            filesDataTable.Hide();
+            filesDataTable.Show();
+
+            /* Setup files section */
+            _fileManager = new FileManager(ref filesDataTable, ApplicationStateManager.getInstance().getState().userData.name);
+        }
+
+        private void removeSelectedFile_Click(object sender, EventArgs e)
+        {
+            /* User is logged in or not */
+            if (ApplicationStateManager.getInstance().getState().userData is null)
+            {
+                return;
+            }
+
+            _fileManager.removeFile(ApplicationStateManager.getInstance().getState().userData.name);
+        }
+
+        private void downloadSelectedFile_Click(object sender, EventArgs e)
+        {
+            /* User is logged in or not */
+            if (ApplicationStateManager.getInstance().getState().userData is null)
+            {
+                return;
+            }
+
+            _fileManager.downloadFile(ApplicationStateManager.getInstance().getState().userData.name);
         }
     }
 }

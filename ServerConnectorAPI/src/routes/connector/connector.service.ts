@@ -7,9 +7,7 @@ import * as fs from 'fs';
 
 export interface FileModel {
   privilege: string;
-  hardLinkCount: number;
   owner: string;
-  group: string;
   sizeInBytes: number;
   date: string;
   fileName: string;
@@ -21,7 +19,7 @@ export class ConnectorService {
     const { userName, excludedDirectories } = body;
 
     const fileList = fs.readdirSync(
-      'D:\\Organizations\\Molnar-Solutions\\server-handler-gui',
+      'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles',
       {
         encoding: 'utf8',
         withFileTypes: true,
@@ -42,8 +40,6 @@ export class ConnectorService {
       response.push({
         fileName: file.name,
         date: '' + stat.birthtime.toISOString(),
-        group: '',
-        hardLinkCount: 0,
         owner: '' + stat.uid,
         privilege: '' + permissions,
         sizeInBytes: Number('' + stat.size),
@@ -54,26 +50,6 @@ export class ConnectorService {
   }
 
   async uploadFile(file: Express.Multer.File, body: ConnectorUploadFile) {
-    const destinationPath =
-      'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles';
-    const filePath = `${destinationPath}/${file.originalname}`;
-
-    await this.moveFile(file.path, filePath);
-
-    /*
-    const command = 'ls -l'; // Replace with your desired Linux command
-    const childProcess = spawn(command, { shell: true });
-
-    childProcess.stdout.on('data', (data) => {
-      console.log(`stdout: ${data}`);
-    });
-
-    childProcess.stderr.on('data', (data) => {
-      console.error(`stderr: ${data}`);   
-
-    });
-    */
-
     return 200;
   }
 

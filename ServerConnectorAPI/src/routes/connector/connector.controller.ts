@@ -2,31 +2,25 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Req,
   Res,
   UploadedFile,
   UseGuards,
+  Response,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { ConnectorService } from './connector.service';
 import {
   ConnectorGetFilesModel,
+  ConnectorRemoveFile,
   ConnectorUploadFile,
 } from '../../models/connector.model';
-import { Response } from 'express';
-import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
-
-export const storage = diskStorage({
-  destination:
-    'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles',
-  filename: (req, file, callback) => {
-    callback(null, generateFilename(file));
-  },
-});
+import * as fs from 'fs';
 
 export const multerOptions = {
   storage: diskStorage({
@@ -42,10 +36,6 @@ export const multerOptions = {
     },
   }),
 };
-
-function generateFilename(file) {
-  return `${Date.now()}.${extname(file.originalname)}`;
-}
 
 @Controller('connector')
 export class ConnectorController {
@@ -75,14 +65,8 @@ export class ConnectorController {
     }
   }
 
-  @Post('upload-file')
-  @UseInterceptors(FileInterceptor('fileContent', multerOptions))
-  async UploadFile(
-    @UploadedFile() fileContent: Express.Multer.File,
-    @Body() body: ConnectorUploadFile,
-  ) {
-    console.log(fileContent);
-
+  @Post('remove-file')
+  async RemoveFile(@Body() body: ConnectorRemoveFile) {
     let response = {
       StatusCode: 200,
       Message: '',
@@ -91,7 +75,57 @@ export class ConnectorController {
     };
 
     try {
-      // await this.connectorService.uploadFile(fileContent, body);
+      await fs.promises.unlink(
+        `D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles\\${body.fileName}`,
+      );
+
+      return response;
+    } catch (error) {
+      response.StatusCode = 400;
+      response.Message = error.message;
+
+      return response;
+    }
+  }
+
+  @Get('download-file')
+  async DownloadFile(@Query('fileName') fileName: string) {
+    let response = {
+      StatusCode: 200,
+      Message: '',
+      Data: null,
+      Date: new Date(),
+    };
+
+    try {
+      const filePath = `D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles\\${fileName}`;
+      const fileData = fs.readFileSync(filePath).toJSON();
+
+      response.Data = fileData;
+
+      return response;
+    } catch (error) {
+      response.StatusCode = 400;
+      response.Message = error.message;
+
+      return response;
+    }
+  }
+
+  @Post('upload-file')
+  @UseInterceptors(FileInterceptor('fileContent', multerOptions))
+  async UploadFile(
+    @UploadedFile() fileContent: Express.Multer.File,
+    @Body() body: ConnectorUploadFile,
+  ) {
+    let response = {
+      StatusCode: 200,
+      Message: '',
+      Data: null,
+      Date: new Date(),
+    };
+
+    try {
       return response;
     } catch (error) {
       response.StatusCode = 400;

@@ -89,7 +89,6 @@ namespace LibraryGUI.Lib
             }
         }
 
-
         public async Task<APIResponse> PostAsync<T>(string queryString, T data, string? token = null, string? contentType = "application/json")
         {
             APIResponse response = new APIResponse();
