@@ -16,17 +16,17 @@ namespace GUI.model
     }
 
     public record struct GetFilesDto(
-        string userName,
+        string email,
         string? excludedDirectories
     );
 
     public record struct CreateFileDto(
-        string userName,
+        string email,
         string fileName
     );
 
     public record struct RemoveFileDto(
-        string userName,
+        string email,
         string fileName
     );
 

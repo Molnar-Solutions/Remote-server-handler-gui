@@ -54,6 +54,7 @@
             architectureTextBox = new TextBox();
             systemOsTypeTextBox = new TextBox();
             systemWarningErrorTable = new DataGridView();
+            logInformationColumn = new DataGridViewTextBoxColumn();
             label11 = new Label();
             label10 = new Label();
             label9 = new Label();
@@ -79,12 +80,15 @@
             apiUrlTextBox = new TextBox();
             label15 = new Label();
             label16 = new Label();
-            logInformationColumn = new DataGridViewTextBoxColumn();
+            notLoggedInPanel = new Panel();
+            button1 = new Button();
+            label17 = new Label();
             ((System.ComponentModel.ISupportInitialize)filesDataTable).BeginInit();
             fileManagerPanel.SuspendLayout();
             systemHealthPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)systemWarningErrorTable).BeginInit();
             consolePanel.SuspendLayout();
+            notLoggedInPanel.SuspendLayout();
             SuspendLayout();
             // 
             // label2
@@ -305,11 +309,17 @@
             // 
             systemWarningErrorTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             systemWarningErrorTable.Columns.AddRange(new DataGridViewColumn[] { logInformationColumn });
-            systemWarningErrorTable.Enabled = false;
             systemWarningErrorTable.Location = new Point(17, 231);
             systemWarningErrorTable.Name = "systemWarningErrorTable";
             systemWarningErrorTable.Size = new Size(813, 283);
             systemWarningErrorTable.TabIndex = 6;
+            // 
+            // logInformationColumn
+            // 
+            logInformationColumn.HeaderText = "Log information";
+            logInformationColumn.MinimumWidth = 2500;
+            logInformationColumn.Name = "logInformationColumn";
+            logInformationColumn.Width = 2500;
             // 
             // label11
             // 
@@ -333,54 +343,54 @@
             label9.AutoSize = true;
             label9.Location = new Point(13, 151);
             label9.Name = "label9";
-            label9.Size = new Size(208, 15);
+            label9.Size = new Size(234, 15);
             label9.TabIndex = 3;
-            label9.Text = "Available storage(sum of all partition):";
+            label9.Text = "Available storage(sum of all partition) (GB):";
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Location = new Point(13, 124);
             label8.Name = "label8";
-            label8.Size = new Size(84, 15);
+            label8.Size = new Size(110, 15);
             label8.TabIndex = 2;
-            label8.Text = "Total memory:";
+            label8.Text = "Total memory (GB):";
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Location = new Point(13, 96);
             label7.Name = "label7";
-            label7.Size = new Size(106, 15);
+            label7.Size = new Size(132, 15);
             label7.TabIndex = 1;
-            label7.Text = "Available memory:";
+            label7.Text = "Available memory (GB):";
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Location = new Point(13, 65);
             label6.Name = "label6";
-            label6.Size = new Size(68, 15);
+            label6.Size = new Size(89, 15);
             label6.TabIndex = 0;
-            label6.Text = "CPU Usage:";
+            label6.Text = "CPU Usage (%):";
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Location = new Point(13, 36);
             label5.Name = "label5";
-            label5.Size = new Size(75, 15);
+            label5.Size = new Size(101, 15);
             label5.TabIndex = 0;
-            label5.Text = "Architecture:";
+            label5.Text = "Architecture (GB):";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Location = new Point(13, 8);
             label4.Name = "label4";
-            label4.Size = new Size(53, 15);
+            label4.Size = new Size(79, 15);
             label4.TabIndex = 0;
-            label4.Text = "OS Type:";
+            label4.Text = "OS Type (GB):";
             // 
             // signInButton
             // 
@@ -528,9 +538,9 @@
             label15.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label15.Location = new Point(711, 5);
             label15.Name = "label15";
-            label15.Size = new Size(131, 25);
+            label15.Size = new Size(74, 25);
             label15.TabIndex = 18;
-            label15.Text = "Bejelentkezés";
+            label15.Text = "Sign in";
             // 
             // label16
             // 
@@ -538,22 +548,46 @@
             label16.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label16.Location = new Point(70, 9);
             label16.Name = "label16";
-            label16.Size = new Size(107, 25);
+            label16.Size = new Size(84, 25);
             label16.TabIndex = 19;
-            label16.Text = "Beállítások";
+            label16.Text = "Settings";
             // 
-            // logInformationColumn
+            // notLoggedInPanel
             // 
-            logInformationColumn.HeaderText = "Log information";
-            logInformationColumn.MinimumWidth = 2500;
-            logInformationColumn.Name = "logInformationColumn";
-            logInformationColumn.Width = 2500;
+            notLoggedInPanel.Controls.Add(label17);
+            notLoggedInPanel.Controls.Add(button1);
+            notLoggedInPanel.Location = new Point(113, 91);
+            notLoggedInPanel.Name = "notLoggedInPanel";
+            notLoggedInPanel.Size = new Size(867, 529);
+            notLoggedInPanel.TabIndex = 20;
+            // 
+            // button1
+            // 
+            button1.BackgroundImage = Properties.Resources.not_logged_in;
+            button1.BackgroundImageLayout = ImageLayout.Stretch;
+            button1.Location = new Point(289, 48);
+            button1.Name = "button1";
+            button1.Size = new Size(272, 274);
+            button1.TabIndex = 0;
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label17.Location = new Point(85, 339);
+            label17.Name = "label17";
+            label17.Size = new Size(691, 45);
+            label17.TabIndex = 1;
+            label17.Text = "Hi 🙂 You are not logged in yet, please sign in!";
+            label17.Click += label17_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(983, 622);
+            Controls.Add(notLoggedInPanel);
             Controls.Add(label16);
             Controls.Add(label15);
             Controls.Add(logOutButton);
@@ -573,9 +607,9 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(systemHealthPanel);
             Controls.Add(fileManagerPanel);
             Controls.Add(consolePanel);
+            Controls.Add(systemHealthPanel);
             Cursor = Cursors.Hand;
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "MainForm";
@@ -588,6 +622,8 @@
             ((System.ComponentModel.ISupportInitialize)systemWarningErrorTable).EndInit();
             consolePanel.ResumeLayout(false);
             consolePanel.PerformLayout();
+            notLoggedInPanel.ResumeLayout(false);
+            notLoggedInPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -644,5 +680,8 @@
         private DataGridViewTextBoxColumn privilegeColumn;
         private Button refreshFileContents;
         private DataGridViewTextBoxColumn logInformationColumn;
+        private Panel notLoggedInPanel;
+        private Button button1;
+        private Label label17;
     }
 }

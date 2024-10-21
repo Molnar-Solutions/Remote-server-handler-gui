@@ -12,6 +12,8 @@ model User {
   email     String   @unique
   name      String
   password  String
+  homedirForWindows   String   @default("")
+  homedirForLinux   String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   token     String   @db.LongText

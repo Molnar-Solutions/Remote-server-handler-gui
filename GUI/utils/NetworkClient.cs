@@ -6,7 +6,12 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace LibraryGUI.Lib
+/*
+ 
+ @Author: Daniel Molnar
+ 
+ */
+namespace MD_Networking
 {
     public class NetworkClient : IDisposable
     {
@@ -89,7 +94,7 @@ namespace LibraryGUI.Lib
             }
         }
 
-        public async Task<APIResponse> PostAsync<T>(string queryString, T data, string? token = null, string? contentType = "application/json")
+        public async Task<APIResponse> PostAsync<T>(string queryString, T data)
         {
             APIResponse response = new APIResponse();
 

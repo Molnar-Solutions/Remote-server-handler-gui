@@ -1,11 +1,8 @@
 ﻿using GUI.model;
 using GUI.service;
 using GUI.utils;
-using LibraryGUI.Lib;
-using LogCommon;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
 using System.Text;
+using MD_Networking;
 
 namespace GUI
 {
@@ -17,6 +14,11 @@ namespace GUI
         public MainForm()
         {
             InitializeComponent();
+
+            /* Hide menu buttons */
+            fileManagerButton.Hide();
+            systemHealthButton.Hide();
+
             loggedInDateLabel.Text = "";
             loggedInUserLabel.Text = "Anonymus";
             loggedInUserLabel.ForeColor = Color.Red;
@@ -42,7 +44,7 @@ namespace GUI
                 return;
             }
 
-            _fileManager.addFile(ApplicationStateManager.getInstance().getState().userData.name, filesDataTable);
+            _fileManager.addFile(filesDataTable);
         }
 
         private void fileManagerPanel_Paint(object sender, PaintEventArgs e)
@@ -85,8 +87,8 @@ namespace GUI
 
             /* Update system informations */
             /* Order is very important! */
-            string userName = ApplicationStateManager.getInstance().getState().userData.name;
-            _systemHealth = new SystemHealth(ref systemWarningErrorTable, userName);
+            string email = ApplicationStateManager.getInstance().getState().userData.email;
+            _systemHealth = new SystemHealth(ref systemWarningErrorTable, email);
 
             /* Set ref values */
             _systemHealth.SetTextBoxRef(ref systemOsTypeTextBox, LabelType.OS_TYPE);
@@ -142,6 +144,8 @@ namespace GUI
 
                 StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(userResponse.Data), Encoding.UTF8, "application/json");
                 UserDataResponse userData = System.Text.Json.JsonSerializer.Deserialize<UserDataResponse>(await jsonContent.ReadAsStringAsync());
+
+                /* Try to store it in registry */
                 applicationStateRef.getState().userData = userData;
 
                 if (userData is null)
@@ -149,6 +153,9 @@ namespace GUI
                     MessageBox.Show("Hiba! Nem sikerült betölteni a felhasználói adatokat!");
                     return;
                 }
+
+                /* Hide not logged in panel */
+                notLoggedInPanel.Hide();
 
                 /* Change dependent items */
                 logOutButton.Enabled = true;
@@ -160,13 +167,17 @@ namespace GUI
 
                 isConnectedLabel.Text = "Connected!";
                 isConnectedLabel.ForeColor = Color.Green;
+
+                /* Hide menu buttons */
+                fileManagerButton.Show();
+                systemHealthButton.Show();
+
+                /* Make visible the file manager panel */
+                fileManagerPanel.Show();
+
+                /* Setup files section */
+                _fileManager = new FileManager(ref filesDataTable, userData.email);
             }
-
-            /* Make visible the file manager panel */
-            fileManagerPanel.Show();
-
-            /* Setup files section */
-            _fileManager = new FileManager(ref filesDataTable, ApplicationStateManager.getInstance().getState().userData.name);
         }
 
         private void logOutButton_Click(object sender, EventArgs e)
@@ -178,6 +189,10 @@ namespace GUI
             }
 
             /* Change dependent items */
+            notLoggedInPanel.Show();
+            fileManagerButton.Hide();
+            systemHealthButton.Hide();
+
             logOutButton.Enabled = false;
             loggedInDateLabel.Text = "";
             loggedInUserLabel.Text = "Anonymus";
@@ -213,7 +228,7 @@ namespace GUI
             filesDataTable.Show();
 
             /* Setup files section */
-            _fileManager = new FileManager(ref filesDataTable, ApplicationStateManager.getInstance().getState().userData.name);
+            _fileManager = new FileManager(ref filesDataTable, ApplicationStateManager.getInstance().getState().userData.email);
         }
 
         private void removeSelectedFile_Click(object sender, EventArgs e)
@@ -224,7 +239,7 @@ namespace GUI
                 return;
             }
 
-            _fileManager.removeFile(ApplicationStateManager.getInstance().getState().userData.name);
+            _fileManager.removeFile();
         }
 
         private void downloadSelectedFile_Click(object sender, EventArgs e)
@@ -235,7 +250,12 @@ namespace GUI
                 return;
             }
 
-            _fileManager.downloadFile(ApplicationStateManager.getInstance().getState().userData.name);
+            _fileManager.downloadFile();
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

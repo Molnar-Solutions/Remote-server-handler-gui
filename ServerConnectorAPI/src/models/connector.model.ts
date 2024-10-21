@@ -3,15 +3,13 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class ConnectorGetFilesModel {
   @IsNotEmpty()
   @IsString()
-  userName: string;
-  @IsOptional()
-  excludedDirectories?: string;
+  email: string;
 }
 
 export class ConnectorUploadFile {
   @IsNotEmpty()
   @IsString()
-  userName: string;
+  email: string;
   @IsNotEmpty()
   @IsString()
   fileName: string;
@@ -20,7 +18,7 @@ export class ConnectorUploadFile {
 export class ConnectorRemoveFile {
   @IsNotEmpty()
   @IsString()
-  userName: string;
+  email: string;
   @IsNotEmpty()
   @IsString()
   fileName: string;
@@ -29,7 +27,7 @@ export class ConnectorRemoveFile {
 export class ConnectorDownloadFile {
   @IsNotEmpty()
   @IsString()
-  userName: string;
+  email: string;
   @IsNotEmpty()
   @IsString()
   fileName: string;
@@ -38,5 +36,5 @@ export class ConnectorDownloadFile {
 export class ConnectorGetSystemHealth {
   @IsNotEmpty()
   @IsString()
-  userName: string;
+  email: string;
 }

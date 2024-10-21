@@ -7,6 +7,9 @@ import {
 import * as fs from 'fs';
 import * as os from 'os';
 import { exec } from 'child_process';
+import * as diskInfo from 'node-disk-info';
+import * as osUtils from 'os-utils';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 export interface FileModel {
   privilege: string;
@@ -26,25 +29,43 @@ export interface SystemHealthResponse {
   logs: string[];
 }
 
+export interface Drive {
+  device: string;
+  mounted: string;
+  filesystem: string;
+  type: string;
+  size: number;
+  used: number;
+  available: number;
+  use: number;
+}
+
 @Injectable()
 export class ConnectorService {
+  constructor(private readonly prismaService: PrismaService) {}
+
   async getFiles(body: ConnectorGetFilesModel) {
-    const { userName, excludedDirectories } = body;
+    const { email } = body;
+
+    const foundUser = await this.prismaService.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    if (!foundUser) throw new Error('Error! This user is not exists!');
 
     const fileList = fs.readdirSync(
-      'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles',
+      os.type().toString().toLowerCase().includes('windows')
+        ? foundUser.homedirForWindows
+        : foundUser.homedirForLinux, // 'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles'
       {
         encoding: 'utf8',
         withFileTypes: true,
-        recursive: false,
+        recursive: true,
       },
     );
 
     let response: FileModel[] = [];
-    let excludedFiles: string[] = excludedDirectories
-      ? excludedDirectories.split(';')
-      : [];
-
     for (let file of fileList) {
       let stat = fs.statSync(file.path);
 
@@ -63,16 +84,29 @@ export class ConnectorService {
   }
 
   async getSystemHealth(body: ConnectorGetSystemHealth) {
+    const { email } = body;
+
+    const foundUser = await this.prismaService.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    if (!foundUser) throw new Error('Error! This user is not exists!');
+
     const osType = os.type();
     const architecture = os.arch();
-    const cpuUsage = 12; // await this.getCpuUsage();
-    const availableMemory = os.freemem();
-    const totalMemory = os.totalmem();
-    const availableStorage = 320; // await this.getAvailableStorage();
-    const logs = []; // await this.getLogs();
+    const cpuUsage = os.type().toString().toLowerCase().includes('windows')
+      ? await this.getCpuUsageForWindows()
+      : await this.getCpuUsageForLinux();
 
-    /* I stopped here */
-    /* I have to do the commented function on linux and windows as well */
+    const availableMemory = os.freemem() / 1024 / 1024 / 1024;
+    // KB      MB     GB
+    const totalMemory = os.totalmem() / 1024 / 1024 / 1024;
+    const availableStorage =
+      (await this.getAvailableStorage()) / 1024 / 1024 / 1024;
+    const logs = os.type().toString().toLowerCase().includes('windows')
+      ? await this.getLogsForWindows()
+      : await this.getLogsForLinux();
 
     let res: SystemHealthResponse = {
       osType,
@@ -80,14 +114,49 @@ export class ConnectorService {
       cpuUsage,
       availableMemory,
       totalMemory,
-      availableStorage,
+      availableStorage: availableStorage,
       logs,
     };
 
     return res;
   }
 
-  async getCpuUsage(): Promise<number> {
+  async getAvailableStorage() {
+    const data = diskInfo.getDiskInfoSync();
+    let totalAvailableMemory = data.reduce(
+      (acc, value) => acc + value.available,
+      1,
+    );
+    return totalAvailableMemory;
+  }
+
+  async getLogsForWindows(): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      exec(
+        'PowerShell.exe Get-EventLog -Newest 5 -LogName "Application"',
+        (error, stdout, stderr) => {
+          if (error) {
+            reject(
+              new Error(`Error executing PowerShell command: ${error.message}`),
+            );
+          } else {
+            const logs = stdout.split('\n');
+            resolve(logs.slice(0, 300));
+          }
+        },
+      );
+    });
+  }
+
+  async getCpuUsageForWindows(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      osUtils.cpuUsage((cpuUsage) => {
+        resolve(cpuUsage);
+      });
+    });
+  }
+
+  async getCpuUsageForLinux(): Promise<number> {
     return new Promise((resolve, reject) => {
       exec('top -n 1', (error, stdout, stderr) => {
         if (error) {
@@ -107,34 +176,7 @@ export class ConnectorService {
     });
   }
 
-  async getAvailableStorage(): Promise<number> {
-    return new Promise((resolve, reject) => {
-      exec('df -h', (error, stdout, stderr) => {
-        if (error) {
-          reject(new Error(`Error executing 'df -h': ${error.message}`));
-        } else {
-          const lines = stdout.split('\n');
-          const headerLine = lines.find((line) =>
-            line.startsWith('Filesystem'),
-          );
-          const availableStorageLine = lines.find((line) =>
-            line.includes('/dev/sda1'),
-          ); // Adjust for your storage device
-          if (headerLine && availableStorageLine) {
-            const availableStorageStr = availableStorageLine.split(' ')[3];
-            const availableStorage = parseFloat(
-              availableStorageStr.replace('G', ''),
-            );
-            resolve(availableStorage * 1024 * 1024 * 1024); // Convert to bytes
-          } else {
-            reject(new Error('Could not find available storage information'));
-          }
-        }
-      });
-    });
-  }
-
-  async getLogs(): Promise<string[]> {
+  async getLogsForLinux(): Promise<string[]> {
     // Replace with your actual log file path
     const logFilePath = 'path/to/your/logs/application.log';
 
@@ -145,22 +187,6 @@ export class ConnectorService {
         } else {
           const logs = data.split('\n');
           resolve(logs);
-        }
-      });
-    });
-  }
-
-  async uploadFile(file: Express.Multer.File, body: ConnectorUploadFile) {
-    return 200;
-  }
-
-  private async moveFile(sourcePath: string, destinationPath: string) {
-    return new Promise<void>((resolve, reject) => {
-      fs.rename(sourcePath, destinationPath, (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
         }
       });
     });

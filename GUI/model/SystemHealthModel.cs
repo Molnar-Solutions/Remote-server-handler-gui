@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 namespace GUI.model
 {
     public record struct SysteamHealthResponse(
-        string osType,
-        string architecture,
-        long cpuUsage,
-        long availableMemory,
-        long totalMemory,
-        long availableStorage,
-        string[] logs
+        string? osType,
+        string? architecture,
+        double? cpuUsage,
+        double? availableMemory,
+        double? totalMemory,
+        double? availableStorage,
+        string[]? logs
     );
 
     public record struct SystemHealthRequest(
-        string userName    
+        string email    
     );
 }

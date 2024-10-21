@@ -1,19 +1,7 @@
 ﻿using GUI.model;
 using GUI.utils;
-using LibraryGUI.Lib;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Mime;
+using MD_Networking;
 using System.Text;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using System.Windows.Forms;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace GUI.service
@@ -21,15 +9,19 @@ namespace GUI.service
     public class FileManager
     {
         private DataGridView _dataGridViewRef;
+        private string _email;
 
-        public FileManager(ref DataGridView dataGridView, string userName)
+        public FileManager(ref DataGridView dataGridView, string email)
         {
             dataGridView.Rows.Clear();
-            this._loadFileContents(dataGridView, userName);
+
             this._dataGridViewRef = dataGridView;
+            this._email = email;
+
+            this._loadFileContents(dataGridView);
         }
 
-        private async void _loadFileContents(DataGridView dataGridView, string userName)
+        private async void _loadFileContents(DataGridView dataGridView)
         {
             try
             {
@@ -38,7 +30,7 @@ namespace GUI.service
                 {
                     APIResponse response = await client.PostAsync<GetFilesDto>("connector/list-files", new()
                     {
-                        userName = userName
+                        email = _email
                     });
 
                     /* Convert the embedded data object to json serialized string */
@@ -77,7 +69,7 @@ namespace GUI.service
             }
         }
 
-        public async void downloadFile(string userName)
+        public async void downloadFile()
         {
             var currentlySelectedRows = _dataGridViewRef.SelectedRows;
 
@@ -89,10 +81,6 @@ namespace GUI.service
             var firstRowData = currentlySelectedRows[0];
 
             var fileName = firstRowData.Cells[0].Value ?? "-1";
-            var owner = firstRowData.Cells[1].Value ?? "-1";
-            var sizeInBytes = firstRowData.Cells[2].Value ?? -1;
-            var date = firstRowData.Cells[3].Value ?? "-1";
-            var privilege = firstRowData.Cells[4].Value ?? "-1";
 
             /* Send download request to the API */
             try
@@ -100,7 +88,7 @@ namespace GUI.service
                 /* Get files from the API */
                 using (NetworkClient client = new NetworkClient("http://localhost:3000/"))
                 {
-                    APIResponse response = await client.GetAsync<APIResponse>($"connector/download-file?fileName={fileName}");
+                    APIResponse response = await client.GetAsync<APIResponse>($"connector/download-file?fileName={fileName}&email={_email}");
 
                     if (!(response.StatusCode >= 200 && response.StatusCode < 300))
                     {
@@ -138,7 +126,7 @@ namespace GUI.service
             }
         }
 
-        public async void removeFile(string userName)
+        public async void removeFile()
         {
             var currentlySelectedRows = _dataGridViewRef.SelectedRows;
 
@@ -150,10 +138,6 @@ namespace GUI.service
             var firstRowData = currentlySelectedRows[0];
 
             var fileName = firstRowData.Cells[0].Value ?? "-1";
-            var owner = firstRowData.Cells[1].Value ?? "-1";
-            var sizeInBytes = firstRowData.Cells[2].Value ?? -1;
-            var date = firstRowData.Cells[3].Value ?? "-1";
-            var privilege = firstRowData.Cells[4].Value ?? "-1";
 
             /* Send delete request to the API */
             try
@@ -163,7 +147,7 @@ namespace GUI.service
                 {
                     APIResponse response = await client.PostAsync<RemoveFileDto>("connector/remove-file", new()
                     {
-                        userName = userName,
+                        email = _email,
                         fileName = fileName.ToString() ?? "-1"
                     });
 
@@ -174,7 +158,7 @@ namespace GUI.service
                     }
 
                     /* Refresh data table */
-                    _loadFileContents(_dataGridViewRef, ApplicationStateManager.getInstance().getState().userData.name);
+                    _loadFileContents(_dataGridViewRef);
                     MessageBox.Show($"Sikeres törlés!");
                 }
             }
@@ -184,7 +168,7 @@ namespace GUI.service
             }
         }
 
-        public async void addFile(string userName, DataGridView dataGridView)
+        public async void addFile(DataGridView dataGridView)
         {
             try
             {
@@ -200,7 +184,7 @@ namespace GUI.service
                     /* Send post request to upload the file */
                     CreateFileDto createFileDto = new CreateFileDto()
                     {
-                        userName = userName,
+                        email = _email,
                         fileName = dialog.FileName,
                     };
 
@@ -233,7 +217,7 @@ namespace GUI.service
 
 
                     /* Refresh data table */
-                    _loadFileContents(dataGridView, ApplicationStateManager.getInstance().getState().userData.name);
+                    _loadFileContents(dataGridView);
                 }
 
             }

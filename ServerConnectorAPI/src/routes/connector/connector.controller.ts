@@ -22,6 +22,8 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import * as fs from 'fs';
+import * as os from 'os';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 export const multerOptions = {
   storage: diskStorage({
@@ -40,7 +42,10 @@ export const multerOptions = {
 
 @Controller('connector')
 export class ConnectorController {
-  constructor(private readonly connectorService: ConnectorService) {}
+  constructor(
+    private readonly connectorService: ConnectorService,
+    private readonly prismaService: PrismaService,
+  ) {}
 
   @Post('/list-files')
   async getFiles(
@@ -76,8 +81,21 @@ export class ConnectorController {
     };
 
     try {
+      const { email } = body;
+
+      const foundUser = await this.prismaService.user.findFirst({
+        where: {
+          email: email,
+        },
+      });
+      if (!foundUser) throw new Error('Error! This user is not exists!');
+
+      let separator = os.type().toString().toLowerCase().includes('windows')
+        ? '\\'
+        : '/';
+
       await fs.promises.unlink(
-        `D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles\\${body.fileName}`,
+        `${os.type().toString().toLowerCase().includes('windows') ? foundUser.homedirForWindows : foundUser.homedirForLinux}${separator}${body.fileName}`, //`D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles\\${body.fileName}`,
       );
 
       return response;
@@ -90,7 +108,10 @@ export class ConnectorController {
   }
 
   @Get('download-file')
-  async DownloadFile(@Query('fileName') fileName: string) {
+  async DownloadFile(
+    @Query('fileName') fileName: string,
+    @Query('email') email: string,
+  ) {
     let response = {
       StatusCode: 200,
       Message: '',
@@ -99,7 +120,17 @@ export class ConnectorController {
     };
 
     try {
-      const filePath = `D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles\\${fileName}`;
+      const foundUser = await this.prismaService.user.findFirst({
+        where: {
+          email: email,
+        },
+      });
+      if (!foundUser) throw new Error('Error! This user is not exists!');
+
+      let separator = os.type().toString().toLowerCase().includes('windows')
+        ? '\\'
+        : '/';
+      const filePath = `${os.type().toString().toLowerCase().includes('windows') ? foundUser.homedirForWindows : foundUser.homedirForLinux}${separator}${fileName}`;
       const fileData = fs.readFileSync(filePath).toJSON();
 
       response.Data = fileData;
@@ -148,6 +179,30 @@ export class ConnectorController {
     };
 
     try {
+      const { email } = body;
+
+      const foundUser = await this.prismaService.user.findFirst({
+        where: {
+          email: email,
+        },
+      });
+      if (!foundUser) throw new Error('Error! This user is not exists!');
+
+      const folderPath = `${os.type().toString().toLowerCase().includes('windows') ? foundUser.homedirForWindows : foundUser.homedirForLinux}`;
+
+      multerOptions.storage = diskStorage({
+        destination: (req, file, cb) => {
+          const destination = folderPath;
+          cb(null, destination);
+        },
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const filename = `${file.fieldname}-${uniqueSuffix}.${file.originalname.split('.').pop()}`;
+          cb(null, filename);
+        },
+      });
+
       return response;
     } catch (error) {
       response.StatusCode = 400;

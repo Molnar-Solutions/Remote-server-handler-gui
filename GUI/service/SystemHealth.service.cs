@@ -1,6 +1,7 @@
 ﻿using GUI.model;
 using GUI.utils;
 using LibraryGUI.Lib;
+using MD_Networking;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace GUI.service
     public class SystemHealth
     {
         private DataGridView _dataGridViewRef;
-        private string _userName;
+        private string _email;
 
         private TextBox _systemOsTypeRef;
         private TextBox _systemOsArchitectureRef;
@@ -32,10 +33,10 @@ namespace GUI.service
         private TextBox _systemOsTotalMemoryRef;
         private TextBox _systemOsAvailableStorageRef;
 
-        public SystemHealth(ref DataGridView dataGridView, string userName)
+        public SystemHealth(ref DataGridView dataGridView, string email)
         {
             this._dataGridViewRef = dataGridView;
-            this._userName = userName;
+            this._email = email;
         }
 
         public void SetTextBoxRef(ref TextBox label, LabelType type)
@@ -43,7 +44,7 @@ namespace GUI.service
             switch (type)
             {
                 case LabelType.OS_TYPE:
-                    _systemOsArchitectureRef = label;
+                    _systemOsTypeRef = label;
                     break;
 
                 case LabelType.ARCHITECTURE:
@@ -103,7 +104,7 @@ namespace GUI.service
                 {
                     APIResponse response = await client.PostAsync<SystemHealthRequest>("connector/system-health", new()
                     {
-                        userName = _userName
+                        email = _email
                     });
 
                     /* Convert response data to SysteamHealthResponse object */
@@ -117,7 +118,7 @@ namespace GUI.service
                     _systemOsTotalMemoryRef.Text = responseData.totalMemory + "";
                     _systemOsAvailableStorageRef.Text = responseData.availableStorage + "";
                     _systemOsAvailableMemoryRef.Text = responseData.availableMemory + "";
-                    _systemCPUUsageRef.Text = responseData.cpuUsage + "";
+                    _systemCPUUsageRef.Text = (responseData.cpuUsage * 100 ) + "";
 
                     /* Load file contents into the table */
                     foreach (var log in responseData.logs)
