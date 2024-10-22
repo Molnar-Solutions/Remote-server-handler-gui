@@ -8,7 +8,7 @@ namespace GUI.service
 {
     public class FileManager
     {
-        private DataGridView _dataGridViewRef;
+        private DataGridView? _dataGridViewRef;
         private string _email;
 
         public FileManager(ref DataGridView dataGridView, string email)
@@ -21,7 +21,7 @@ namespace GUI.service
             this._loadFileContents(dataGridView);
         }
 
-        private async void _loadFileContents(DataGridView dataGridView)
+        private async Task _loadFileContents(DataGridView dataGridView)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace GUI.service
             }
         }
 
-        public async void downloadFile()
+        public async Task downloadFile()
         {
             var currentlySelectedRows = _dataGridViewRef.SelectedRows;
 
@@ -126,7 +126,7 @@ namespace GUI.service
             }
         }
 
-        public async void removeFile()
+        public async Task removeFile()
         {
             var currentlySelectedRows = _dataGridViewRef.SelectedRows;
 
@@ -158,7 +158,7 @@ namespace GUI.service
                     }
 
                     /* Refresh data table */
-                    _loadFileContents(_dataGridViewRef);
+                    await _loadFileContents(_dataGridViewRef);
                     MessageBox.Show($"Sikeres törlés!");
                 }
             }
@@ -168,7 +168,7 @@ namespace GUI.service
             }
         }
 
-        public async void addFile(DataGridView dataGridView)
+        public async Task addFile(DataGridView dataGridView)
         {
             try
             {
@@ -217,7 +217,7 @@ namespace GUI.service
 
 
                     /* Refresh data table */
-                    _loadFileContents(dataGridView);
+                    await _loadFileContents(dataGridView);
                 }
 
             }

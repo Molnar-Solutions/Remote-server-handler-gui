@@ -126,6 +126,34 @@ namespace MD_Networking
             return response;
         }
 
+        public async Task<T> PostOrThrowAsync<T>(string queryString, T data)
+        {
+            try
+            {
+                using StringContent jsonContent = new(
+                System.Text.Json.JsonSerializer.Serialize(data),
+                Encoding.UTF8,
+                "application/json");
+
+                using (HttpResponseMessage httpResponse = await _httpClient.PostAsync(
+                    _baseURL + queryString,
+                    jsonContent))
+                {
+                    if (!httpResponse.IsSuccessStatusCode)
+                    {
+                        throw new NetworkCommunicationException($"Error! Invalid request {httpResponse.ReasonPhrase}");
+                    }
+
+                    var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+                    return (T) System.Text.Json.JsonSerializer.Deserialize<T>(jsonResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new NetworkCommunicationException($"Error! Invalid request {ex.Message}");
+            }
+        }
+
         public void Dispose() {}
     }
 }
