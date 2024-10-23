@@ -22,7 +22,7 @@ If you would like to start the project then follow these steps:
 - ### /user/loggedin POST
 - ### /user/sign-out POST
 - ### /user/sign-in POST
-- 
+  
 ### In the root folder I put an exported sql file and you can use it if you want :)
 
 # Supported operations
