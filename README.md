@@ -19,7 +19,6 @@ If you would like to start the project then follow these steps:
 - ## /connector/download-file GET
 - ## /connector/remove-file POST
 - ## /connector/list-files POST
-- ## /connector
 - ## /user/loggedin POST
 - ## /user/sign-out POST
 - ## /user/sign-in POST
@@ -28,6 +27,8 @@ If you would like to start the project then follow these steps:
 # Supported operations
 - File upload / remove / download
 - System monitoring
+
+# Pictures
 
 # Administrator is not logged in
 ![image](https://github.com/user-attachments/assets/0ea650dc-7c86-4198-a712-622f25828b0f)
