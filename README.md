@@ -1,9 +1,15 @@
 # Remote-server-handler-gui
 Remote server handler gui [via api]
 
+# Administrator is not logged in
+![image](https://github.com/user-attachments/assets/0ea650dc-7c86-4198-a712-622f25828b0f)
+
+
 # File manager
-![image](https://github.com/user-attachments/assets/a8977f94-5e82-4135-bdfa-01beb7d535d6)
+![image](https://github.com/user-attachments/assets/2d35dbf0-a497-49b0-ae7f-632fbc681b30)
 
 
-# System health
-![image](https://github.com/user-attachments/assets/167b5fc0-2f48-414a-9ad5-62224d8c7e45)
+
+# System health & monitoring
+![image](https://github.com/user-attachments/assets/3534db03-cbc6-40ed-8688-6341c57876a8)
+
