@@ -29,7 +29,7 @@ export const multerOptions = {
   storage: diskStorage({
     destination: (req, file, cb) => {
       const destination =
-        'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles';
+        'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles'; /* BASE OPTION, I REWRITE IT IN EVERY SINGLE ROUTE */
       cb(null, destination);
     },
     filename: (req, file, cb) => {
@@ -95,7 +95,7 @@ export class ConnectorController {
         : '/';
 
       await fs.promises.unlink(
-        `${os.type().toString().toLowerCase().includes('windows') ? foundUser.homedirForWindows : foundUser.homedirForLinux}${separator}${body.fileName}`, //`D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles\\${body.fileName}`,
+        `${os.type().toString().toLowerCase().includes('windows') ? foundUser.homedirForWindows : foundUser.homedirForLinux}${separator}${body.fileName}`, // Use this code or paste yours, in my case it was: `D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles\\${body.fileName}`,
       );
 
       return response;

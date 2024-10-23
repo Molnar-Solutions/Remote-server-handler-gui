@@ -3,13 +3,14 @@ using GUI.service;
 using GUI.utils;
 using System.Text;
 using MD_Networking;
+using GUI.persistence;
 
 namespace GUI
 {
     public partial class MainForm : Form
     {
-        private FileManager _fileManager;
-        private SystemHealth _systemHealth;
+        private FileManager? _fileManager;
+        private SystemHealth? _systemHealth;
 
         public MainForm()
         {
@@ -31,6 +32,7 @@ namespace GUI
             consolePanel.Hide();
             systemHealthPanel.Hide();
 
+            /* This part is only for testing purposes :) */
             apiUrlTextBox.Text = "http://localhost:3000/user/sign-in";
             apiUsernameTextBox.Text = "test@gmail.com";
             apiPasswordTextBox.Text = "asd123";
@@ -114,19 +116,19 @@ namespace GUI
             /* Sign in action */
             if (System.String.IsNullOrEmpty(apiUrlTextBox.Text))
             {
-                MessageBox.Show("Hiba a(z) 'API' mező nem lehet üres!", "", MessageBoxButtons.OK);
+                MessageBox.Show("Whooops! The API field cannot be null!", "", MessageBoxButtons.OK);
                 return;
             }
 
             if (System.String.IsNullOrEmpty(apiUsernameTextBox.Text))
             {
-                MessageBox.Show("Hiba a(z) 'felhasználó név' mező nem lehet üres!", "", MessageBoxButtons.OK);
+                MessageBox.Show("Whooops! 'user name' field cannot be null!", "", MessageBoxButtons.OK);
                 return;
             }
 
             if (System.String.IsNullOrEmpty(apiPasswordTextBox.Text))
             {
-                MessageBox.Show("Hiba a(z) 'jelszó' mező nem lehet üres!", "", MessageBoxButtons.OK);
+                MessageBox.Show("Whooops! the 'password' field cannot be null!", "", MessageBoxButtons.OK);
                 return;
             }
 
@@ -150,7 +152,7 @@ namespace GUI
 
                 if (userData is null)
                 {
-                    MessageBox.Show("Hiba! Nem sikerült betölteni a felhasználói adatokat!");
+                    MessageBox.Show("Whoops! We could not load the user informations :(");
                     return;
                 }
 
@@ -201,7 +203,7 @@ namespace GUI
             isConnectedLabel.Text = "Not connected!";
             isConnectedLabel.ForeColor = Color.Red;
 
-            MessageBox.Show("Sikeres kijelentkezés!", "", MessageBoxButtons.OK);
+            MessageBox.Show("You are logged out :(", "", MessageBoxButtons.OK);
 
             /* Make panels unvisible & remove refs */
             ApplicationStateManager.getInstance().getState().userData = null;

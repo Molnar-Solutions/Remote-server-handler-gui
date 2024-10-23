@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import {
   ConnectorGetFilesModel,
   ConnectorGetSystemHealth,
-  ConnectorUploadFile,
 } from '../../models/connector.model';
 import * as fs from 'fs';
 import * as os from 'os';
@@ -57,7 +56,7 @@ export class ConnectorService {
     const fileList = fs.readdirSync(
       os.type().toString().toLowerCase().includes('windows')
         ? foundUser.homedirForWindows
-        : foundUser.homedirForLinux, // 'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles'
+        : foundUser.homedirForLinux, // Default for me, If you just wants to use windows leave it empty or just write a duck :) 'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles'
       {
         encoding: 'utf8',
         withFileTypes: true,
@@ -177,8 +176,8 @@ export class ConnectorService {
   }
 
   async getLogsForLinux(): Promise<string[]> {
-    // Replace with your actual log file path
-    const logFilePath = 'path/to/your/logs/application.log';
+    const logFilePath =
+      'path/to/your/logs/application.log'; /* YOU HAVE TO REPLACE IT TO YOUR OWN DESIRES, but if you would like to use it for windows only then leave it as it was */
 
     return new Promise((resolve, reject) => {
       fs.readFile(logFilePath, 'utf8', (err, data) => {

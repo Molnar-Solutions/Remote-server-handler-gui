@@ -52,7 +52,7 @@ namespace MD_Networking
             else
             {
                 string error = response.Content.ReadAsStringAsync().Result;
-                throw new NetworkCommunicationException($"Kommunikációs hiba: \r\nResponse code: {response.StatusCode} \r\n {error}");
+                throw new NetworkCommunicationException($"Network error: \r\nResponse code: {response.StatusCode} \r\n {error}");
             }
         }
 
@@ -87,7 +87,7 @@ namespace MD_Networking
             else
             {
                 string error = await response.Content.ReadAsStringAsync();
-                throw new NetworkCommunicationException($"Kommunikációs hiba: {error}");
+                throw new NetworkCommunicationException($"Network error: {error}");
             }
         }
 
@@ -108,7 +108,7 @@ namespace MD_Networking
                 {
                     if (!httpResponse.IsSuccessStatusCode)
                     {
-                        MessageBox.Show($"Hiba a kérés végrehajtása során! ({response.Message}) ({response.StatusCode})");
+                        MessageBox.Show($"Something went wrong: ({response.Message}) ({response.StatusCode})");
                         return default(APIResponse);
                     }
 

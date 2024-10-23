@@ -17,15 +17,15 @@ namespace GUI.service
 
     public class SystemHealth
     {
-        private DataGridView _dataGridViewRef;
-        private string _email;
+        private DataGridView? _dataGridViewRef;
+        private string? _email;
 
-        private TextBox _systemOsTypeRef;
-        private TextBox _systemOsArchitectureRef;
-        private TextBox _systemCPUUsageRef;
-        private TextBox _systemOsAvailableMemoryRef;
-        private TextBox _systemOsTotalMemoryRef;
-        private TextBox _systemOsAvailableStorageRef;
+        private TextBox? _systemOsTypeRef;
+        private TextBox? _systemOsArchitectureRef;
+        private TextBox? _systemCPUUsageRef;
+        private TextBox? _systemOsAvailableMemoryRef;
+        private TextBox? _systemOsTotalMemoryRef;
+        private TextBox? _systemOsAvailableStorageRef;
 
         public SystemHealth(ref DataGridView dataGridView, string email)
         {
@@ -89,7 +89,7 @@ namespace GUI.service
             }
         }
 
-        public async void _loadSystemInformations()
+        public async Task _loadSystemInformations()
         {
             try
             {
@@ -131,7 +131,7 @@ namespace GUI.service
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Something went wrong during load system informations, more info: " + ex.Message);
             }
         }
     }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GUI.model;
 
-namespace GUI.model
+namespace GUI.persistence
 {
 
     public class ApplicationState

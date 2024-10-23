@@ -41,7 +41,7 @@ namespace TestProject1
 
                 /* Read data from the inside property & convert to userdataresponse */
                 StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(userResponse.Data), Encoding.UTF8, "application/json");
-                UserDataResponse userData = System.Text.Json.JsonSerializer.Deserialize<UserDataResponse>(await jsonContent.ReadAsStringAsync());
+                UserDataResponse? userData = System.Text.Json.JsonSerializer.Deserialize<UserDataResponse>(await jsonContent.ReadAsStringAsync());
 
                 Assert.AreEqual(true, (userResponse.StatusCode >= 200 && userResponse.StatusCode < 300) && !(userData is null));
             }
@@ -62,7 +62,7 @@ namespace TestProject1
 
                 /* Read data from the inside property & convert to userdataresponse */
                 StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(userResponse.Data), Encoding.UTF8, "application/json");
-                UserDataResponse userData = System.Text.Json.JsonSerializer.Deserialize<UserDataResponse>(await jsonContent.ReadAsStringAsync());
+                UserDataResponse? userData = System.Text.Json.JsonSerializer.Deserialize<UserDataResponse>(await jsonContent.ReadAsStringAsync());
 
                 /* Get file contents */
                 APIResponse response = await client.PostAsync<GetFilesDto>("connector/list-files", new()
@@ -74,7 +74,7 @@ namespace TestProject1
                 StringContent filesJsonContent = new(System.Text.Json.JsonSerializer.Serialize(response.Data), Encoding.UTF8,
                     "application/json");
 
-                IEnumerable<FileTableDataModel> files = System.Text.Json.JsonSerializer
+                IEnumerable<FileTableDataModel>? files = System.Text.Json.JsonSerializer
                     .Deserialize<IEnumerable<FileTableDataModel>>(await filesJsonContent.ReadAsStringAsync());
 
                 Assert.IsTrue(files.Any() || !(response.Data is null));
@@ -96,7 +96,7 @@ namespace TestProject1
 
                 /* Read data from the inside property & convert to userdataresponse */
                 StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(userResponse.Data), Encoding.UTF8, "application/json");
-                UserDataResponse userData = System.Text.Json.JsonSerializer.Deserialize<UserDataResponse>(await jsonContent.ReadAsStringAsync());
+                UserDataResponse? userData = System.Text.Json.JsonSerializer.Deserialize<UserDataResponse>(await jsonContent.ReadAsStringAsync());
 
                 /* Get health contents */
                 APIResponse response = await client.PostAsync<SystemHealthRequest>("connector/system-health", new()

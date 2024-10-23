@@ -1,14 +1,9 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UserLoginDto } from '../../dtos/user.dto';
 import { isValidUserPassword } from '../../utils/PasswordManagerService';
 import { decodeToken, generateToken } from '../../utils/TokenManagerService';
 import * as moment from 'moment';
-import handleIncomingError from '../../utils/ErrorManager';
 import { LoggingService } from '../../services/logging/logging.service';
 import { ESeverity } from '@prisma/client';
 import { UserNotAuthenticatedException } from '../../exceptions/UserNotAuthenticated.exception';
@@ -32,12 +27,12 @@ export class UserService {
         password: true,
       },
     });
-    if (!foundUser)
-      throw new Error('Nincs ilyen felhasználó vagy nincs aktiválva!');
+    if (!foundUser) throw new Error('This user is not exists!');
 
     // If it is not true then it will throw an error.
     await isValidUserPassword(user.password, foundUser.password);
 
+    /* Basic token generation, if you prefer then use the embedded nestjs solution for this one :) */
     const token = generateToken(foundUser);
 
     const freshUser = await this.prismaService.user.update({
@@ -57,7 +52,7 @@ export class UserService {
 
     await this.loggingService.log({
       user: 'System',
-      message: `Új felhasználó lépett be: ${user.email}`,
+      message: `${user.email} user logged in :)`,
       type: ESeverity.Information,
     });
 
@@ -66,7 +61,8 @@ export class UserService {
 
   async signOut(token: string) {
     const decoded: any = decodeToken(token);
-    if (!decoded) throw new BadRequestException('Hiba! A token nem érvényes!');
+    if (!decoded)
+      throw new BadRequestException('Whoops! The token is expired or invalid!');
 
     const foundUser = await this.prismaService.user.findUnique({
       where: {
@@ -75,7 +71,7 @@ export class UserService {
     });
 
     if (!foundUser)
-      throw new BadRequestException('Hiba! A token nem érvényes!');
+      throw new BadRequestException('Whoops! The token is expired or invalid!');
 
     await this.prismaService.user.update({
       where: {
@@ -88,8 +84,8 @@ export class UserService {
 
     await this.loggingService.log({
       user: 'System',
-      message: `Egy felhasználó kilépett: ${foundUser.email},
-                időpont: ${moment(new Date()).format('YYYY.MM.DD HH:mm')}`,
+      message: ` ${foundUser.email} logged out,
+                time: ${moment(new Date()).format('YYYY.MM.DD HH:mm')}`,
       type: ESeverity.Information,
     });
 
@@ -98,7 +94,8 @@ export class UserService {
 
   async isLoggedIn(token: string) {
     const decoded: any = decodeToken(token);
-    if (!decoded) throw new BadRequestException('Hiba! A token nem érvényes!');
+    if (!decoded)
+      throw new BadRequestException('Whoops! The token is expired or invalid!');
 
     const foundUser = await this.prismaService.user.findFirst({
       where: {
@@ -112,7 +109,7 @@ export class UserService {
       },
     });
     if (!foundUser)
-      throw new BadRequestException('Hiba! A token nem érvényes!');
+      throw new BadRequestException('Whoops! The token is expired or invalid!');
 
     if (!foundUser.token) throw new UserNotAuthenticatedException();
 
@@ -122,11 +119,13 @@ export class UserService {
     // If the token is expired
     const isLogged = moment(currentDate).isBefore(tokenExpirationDate);
     if (!isLogged)
-      throw new BadRequestException('Hiba! Nem vagy bejelentkezve!');
+      throw new BadRequestException(
+        'Whoops! You are not logged in, maybe your token is expired :(',
+      );
 
     await this.loggingService.log({
       user: 'System',
-      message: `${foundUser.email} nevű felhasználó megnézte, hogy mikor lépett be! Időpont: ${moment(new Date()).format('YYYY.MM.DD HH:mm')}`,
+      message: `${foundUser.email} logged in, time: ${moment(new Date()).format('YYYY.MM.DD HH:mm')}`,
       type: ESeverity.Information,
     });
 

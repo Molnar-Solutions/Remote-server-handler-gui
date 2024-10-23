@@ -71,7 +71,7 @@ export class UserController {
 
     try {
       if (!token)
-        throw new BadRequestException('Hiba! Token megadása szükséges!');
+        throw new BadRequestException('Whoops! The token is missing :(');
 
       let res = await this.userService.isLoggedIn(token);
 

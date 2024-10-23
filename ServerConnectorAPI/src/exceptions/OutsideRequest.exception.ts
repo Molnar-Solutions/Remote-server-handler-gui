@@ -1,7 +1,10 @@
-import {HttpException, HttpStatus} from "@nestjs/common";
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class OutsideRequestException extends HttpException {
-    constructor() {
-        super('Hiba! Csak belső hálózatból érhető el!', HttpStatus.FORBIDDEN);
-    }
+  constructor() {
+    super(
+      'Woooo wooo! This service is only available inside the project network!',
+      HttpStatus.FORBIDDEN,
+    );
+  }
 }

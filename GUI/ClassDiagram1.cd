@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GUI.utils.APIResponse">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABABIAAAIAAAAAA=</HashCode>
+      <FileName>utils\APIResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MD_Networking.NetworkClient" BaseTypeListCollapsed="true">
+    <Position X="2" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAiIAAABAABAAAAAAAAAAAAAAAAAAIAAAAIA=</HashCode>
+      <FileName>utils\NetworkClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.11" Collapsed="true" />
+  </Class>
+  <Class Name="GUI.service.FileManager">
+    <Position X="13" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAABAAAAgAAAAAAAAAACAAAAIAAE=</HashCode>
+      <FileName>service\FileManager.service.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI.service.SystemHealth">
+    <Position X="8" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAQAAAAAAAIAAAQAAIAAAAAIAIAAAAAAIAAE=</HashCode>
+      <FileName>service\SystemHealth.service.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI.model.FileTableDataModel">
+    <Position X="16.25" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIgAAAAAAAAAAAAAAAAAAAAEAAgQAAAAA=</HashCode>
+      <FileName>model\FileTableDataModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI.model.UserDataResponse">
+    <Position X="0.5" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAgAAAAAAAAAAAEAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>model\User.model.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI.persistence.ApplicationState">
+    <Position X="5.5" Y="9.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAgA=</HashCode>
+      <FileName>persistence\ApplicationState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI.persistence.ApplicationStateManager">
+    <Position X="7.75" Y="7" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>QAAEAAAAAAAAAAAAAAAACAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>persistence\ApplicationStateManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MD_Networking.Exceptions.NetworkCommunicationException">
+    <Position X="2.25" Y="6.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>exceptions\NetworkCommunicationException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI.Program">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI.MainForm">
+    <Position X="11.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>/wjAAAwQgiACFhKQAACAAAAGlkCJQIYCBH5AJNEBMIA=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="GUI.service.LabelType">
+    <Position X="6.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAACIAgAAAAAAAAAACACAAAAAAAAAAA=</HashCode>
+      <FileName>service\SystemHealth.service.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,7 +1,7 @@
-import {HttpException, HttpStatus} from "@nestjs/common";
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class UserNotAuthenticatedException extends HttpException {
-    constructor() {
-        super('Hiba! Bejelentkezés szükséges! (Kérés megtagadva)', HttpStatus.FORBIDDEN);
-    }
+  constructor() {
+    super('Whoops! This user is not authenticated yet!', HttpStatus.FORBIDDEN);
+  }
 }

@@ -9,7 +9,7 @@ namespace GUI.service
     public class FileManager
     {
         private DataGridView? _dataGridViewRef;
-        private string _email;
+        private string? _email;
 
         public FileManager(ref DataGridView dataGridView, string email)
         {
@@ -37,16 +37,8 @@ namespace GUI.service
                     StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(response.Data), Encoding.UTF8,
                         "application/json");
 
-                    IEnumerable<FileTableDataModel> files = System.Text.Json.JsonSerializer
+                    IEnumerable<FileTableDataModel>? files = System.Text.Json.JsonSerializer
                         .Deserialize<IEnumerable<FileTableDataModel>>(await jsonContent.ReadAsStringAsync());
-
-                    /* dataTable.Columns.Add("fileName", typeof(string));
-                    dataTable.Columns.Add("owner", typeof(string));
-                    dataTable.Columns.Add("sizeInBytes", typeof(int));
-                    dataTable.Columns.Add("date", typeof(string));
-                    dataTable.Columns.Add("privilege", typeof(string)); */
-
-                    /* Clear previous items from the table */
 
                     /* Load file contents into the table */
                     foreach (var file in files)
@@ -65,7 +57,7 @@ namespace GUI.service
                 }
             } catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Something went wrong during loading file contents, more info: " + ex.Message);
             }
         }
 
@@ -75,7 +67,7 @@ namespace GUI.service
 
             if (currentlySelectedRows is null || currentlySelectedRows.Count == 0)
             {
-                MessageBox.Show("Hiba! Egy sort sem jelöltél ki! Fontos, hogy több sor kijelölése esetén az elsőt értelmezi a program!");
+                MessageBox.Show("Whooops! You have to select a line before download a file :)");
                 return;
             }
             var firstRowData = currentlySelectedRows[0];
@@ -92,7 +84,7 @@ namespace GUI.service
 
                     if (!(response.StatusCode >= 200 && response.StatusCode < 300))
                     {
-                        MessageBox.Show($"Hiba a kérés feldolgozása közben! {response.Message}");
+                        MessageBox.Show("Something went wrong during processing your request, more info: " + response.Message);
                         return;
                     }
 
@@ -111,18 +103,18 @@ namespace GUI.service
                         {
 
                             await fileStream.WriteAsync(dataAsByteArray.data, 0, dataAsByteArray.data.Length);
-                            MessageBox.Show("Sikeres fájl letöltés!");
+                            MessageBox.Show("The file successfully downloaded!");
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Fájl letöltés megszakítva");
+                        MessageBox.Show("File upload cancelled!");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Something went wrong during downloading your file, more info: " + ex.Message);
             }
         }
 
@@ -132,7 +124,7 @@ namespace GUI.service
 
             if (currentlySelectedRows is null || currentlySelectedRows.Count == 0)
             {
-                MessageBox.Show("Hiba! Egy sort sem jelöltél ki! Fontos, hogy több sor kijelölése esetén az elsőt értelmezi a program!");
+                MessageBox.Show("Whooops! You have to select a line before remove a file :)");
                 return;
             }
             var firstRowData = currentlySelectedRows[0];
@@ -153,18 +145,18 @@ namespace GUI.service
 
                     if (!(response.StatusCode >= 200 && response.StatusCode < 300))
                     {
-                        MessageBox.Show($"Hiba a kérés feldolgozása közben! {response.Message}");
+                        MessageBox.Show("Something went wrong during processing your request, more info: " + response.Message);
                         return;
                     }
 
                     /* Refresh data table */
                     await _loadFileContents(_dataGridViewRef);
-                    MessageBox.Show($"Sikeres törlés!");
+                    MessageBox.Show($"File successfully deleted!");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Something went wrong during deleting your file, more info: " + ex.Message);
             }
         }
 
@@ -203,14 +195,14 @@ namespace GUI.service
                         /* Response is okay */
                         if (response.IsSuccessStatusCode)
                         {
-                            MessageBox.Show("Sikeres fájl feltöltés!");
+                            MessageBox.Show("File successfully uploaded!");
                             return;
                         }
 
                         /* Response is not okay */
                         if (!response.IsSuccessStatusCode)
                         {
-                            MessageBox.Show($"Hiba a fájl feltöltése közben! {response.ReasonPhrase}");
+                            MessageBox.Show($"Something went wrong during uploading your file, more info: {response.ReasonPhrase}");
                             return;
                         }
                     }
@@ -223,7 +215,7 @@ namespace GUI.service
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Something went wrong during uploading your file, more info: " + ex.Message);
             }
         }
     }

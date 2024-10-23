@@ -81,8 +81,8 @@
             label15 = new Label();
             label16 = new Label();
             notLoggedInPanel = new Panel();
-            button1 = new Button();
             label17 = new Label();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)filesDataTable).BeginInit();
             fileManagerPanel.SuspendLayout();
             systemHealthPanel.SuspendLayout();
@@ -529,7 +529,7 @@
             // 
             apiUrlTextBox.Location = new Point(70, 39);
             apiUrlTextBox.Name = "apiUrlTextBox";
-            apiUrlTextBox.Size = new Size(183, 23);
+            apiUrlTextBox.Size = new Size(366, 23);
             apiUrlTextBox.TabIndex = 2;
             // 
             // label15
@@ -561,16 +561,6 @@
             notLoggedInPanel.Size = new Size(867, 529);
             notLoggedInPanel.TabIndex = 20;
             // 
-            // button1
-            // 
-            button1.BackgroundImage = Properties.Resources.not_logged_in;
-            button1.BackgroundImageLayout = ImageLayout.Stretch;
-            button1.Location = new Point(289, 48);
-            button1.Name = "button1";
-            button1.Size = new Size(272, 274);
-            button1.TabIndex = 0;
-            button1.UseVisualStyleBackColor = true;
-            // 
             // label17
             // 
             label17.AutoSize = true;
@@ -581,6 +571,16 @@
             label17.TabIndex = 1;
             label17.Text = "Hi 🙂 You are not logged in yet, please sign in!";
             label17.Click += label17_Click;
+            // 
+            // button1
+            // 
+            button1.BackgroundImage = Properties.Resources.not_logged_in;
+            button1.BackgroundImageLayout = ImageLayout.Stretch;
+            button1.Location = new Point(289, 48);
+            button1.Name = "button1";
+            button1.Size = new Size(272, 274);
+            button1.TabIndex = 0;
+            button1.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
