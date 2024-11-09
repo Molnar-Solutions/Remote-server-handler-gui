@@ -28,7 +28,8 @@ If you would like to start the project then follow these steps:
 # Installation guide
 ## API
 - Change your directory to ServerConnectorAPI
-- npm install #### Install required dependencies
+#### Install required dependencies
+- npm install
 - npx prisma generate ### Install Prisma ORM
 - docker-compose up --build -d ### Start mysql docker container in detached mode
 - Open your mysql ide and upload the exported sql file in the 'SQL Dump folder'
