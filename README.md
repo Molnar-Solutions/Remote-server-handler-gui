@@ -25,11 +25,29 @@ If you would like to start the project then follow these steps:
   
 ### In the root folder I put an exported sql file and you can use it if you want :)
 
+# Installation guide
+## API
+- Change your directory to ServerConnectorAPI
+- npm install #### Install required dependencies
+- npx prisma generate ### Install Prisma ORM
+- docker-compose up --build -d ### Start mysql docker container in detached mode
+- Open your mysql ide and upload the exported sql file in the 'SQL Dump folder'
+- See .env file and fill it with your secrets
+- npm run start:dev ### Run the api in development mode (auto refresh after editing)
+
+## Web interface
+- cd web-interface
+- npm install
+- npm run start
+
+## GUI
+- Open .sln project file :)
+
 # Supported operations
 - File upload / remove / download
 - System monitoring
 
-# Pictures
+# [Desktop application - Pictures ]
 
 ### Administrator is not logged in
 ![image](https://github.com/user-attachments/assets/0ea650dc-7c86-4198-a712-622f25828b0f)
@@ -42,4 +60,20 @@ If you would like to start the project then follow these steps:
 
 ### System health & monitoring
 ![image](https://github.com/user-attachments/assets/3534db03-cbc6-40ed-8688-6341c57876a8)
+
+# [Web application - Pictures ]
+
+### Administrator is not logged in
+![image](https://github.com/user-attachments/assets/a231c5c5-07fe-4743-b2dc-08dff6cd57ef)
+
+### Home page
+![image](https://github.com/user-attachments/assets/b1aa4824-a415-4b2f-a5e6-b72d7087a5b9)
+
+### File manager
+![image](https://github.com/user-attachments/assets/0a1751ef-4e75-47fe-a343-81e886820d8b)
+
+### System health
+![image](https://github.com/user-attachments/assets/e817a142-147f-47fa-a5f8-add7532e8b73)
+
+
 
