@@ -20,25 +20,10 @@ import {
     ConnectorUploadFile,
 } from '../../models/connector.model';
 import {FileInterceptor} from '@nestjs/platform-express';
-import {diskStorage} from 'multer';
 import * as fs from 'fs';
 import * as os from 'os';
 import {PrismaService} from 'src/prisma/prisma.service';
-
-export const multerOptions = {
-    storage: diskStorage({
-        destination: (req, file, cb) => {
-            const destination =
-                'D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\uploadedFiles'; /* BASE OPTION, I REWRITE IT IN EVERY SINGLE ROUTE */
-            cb(null, destination);
-        },
-        filename: (req, file, cb) => {
-            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-            const filename = `${file.fieldname}-${uniqueSuffix}.${file.originalname.split('.').pop()}`;
-            cb(null, filename);
-        },
-    }),
-};
+import * as path from "node:path";
 
 @Controller('connector')
 export class ConnectorController {
@@ -167,7 +152,7 @@ export class ConnectorController {
     }
 
     @Post('upload-file')
-    @UseInterceptors(FileInterceptor('fileContent', multerOptions))
+    @UseInterceptors(FileInterceptor('fileContent'))
     async UploadFile(
         @UploadedFile() fileContent: Express.Multer.File,
         @Body() body: ConnectorUploadFile,
@@ -191,20 +176,14 @@ export class ConnectorController {
 
             const folderPath = `${os.type().toString().toLowerCase().includes('windows') ? foundUser.homedirForWindows : foundUser.homedirForLinux}`;
 
-            console.log(os.type().toString().toLowerCase(), folderPath)
+            // Read the file buffer from memory
+            const fileBuffer = fileContent.buffer;
 
-            multerOptions.storage = diskStorage({
-                destination: (req, file, cb) => {
-                    const destination = folderPath;
-                    cb(null, destination);
-                },
-                filename: (req, file, cb) => {
-                    const uniqueSuffix =
-                        Date.now() + '-' + Math.round(Math.random() * 1e9);
-                    const filename = `${file.fieldname}-${uniqueSuffix}.${file.originalname.split('.').pop()}`;
-                    cb(null, filename);
-                },
-            });
+            // Create the desired destination path
+            const destinationPath = path.join(folderPath, fileContent.originalname);
+
+            // Write the file to disk
+            fs.writeFileSync(destinationPath, fileBuffer)
 
             return response;
         } catch (error) {
