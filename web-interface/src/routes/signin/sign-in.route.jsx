@@ -69,8 +69,6 @@ export default function SignIn() {
                 return;
             }
 
-            console.log(response)
-
             let apiResponse = response.data ?? response.Data;
 
             // User signed in.
@@ -137,6 +135,12 @@ export default function SignIn() {
                         ),
                     }}
                 />
+                <br/>
+                <a href={"https://github.com/Molnar-Solutions/Remote-server-handler-gui"} target={"_blank"} style={{
+                    margin: "0 auto",
+                    color: "inherit",
+                    textDecoration: "underline"
+                }}>Source code</a>
                 <br/>
                 { /**/ }
                 <br/>
