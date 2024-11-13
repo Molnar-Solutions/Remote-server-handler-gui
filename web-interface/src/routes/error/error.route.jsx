@@ -2,6 +2,7 @@ import "./error.css"
 
 import React, {Component, ErrorInfo} from 'react';
 import NotFoundImage from "../../assets/computer-156951_640.png";
+import {useNavigate} from "react-router-dom";
 
 class ErrorBoundary extends Component {
     constructor(props) {
@@ -33,12 +34,18 @@ class ErrorBoundary extends Component {
 }
 
 function ErrorTextComponent({resetErrorBoundry}) {
-
+    const navigate = useNavigate();
     return <div className='error-page'>
         <img src={NotFoundImage} alt='Page not found' style={{ maxWidth: "250px", height: "auto" }}/>
         <p className='error-msg'>
             Whoops! Something went wrong!
-            <button className='btn' onClick={resetErrorBoundry}>
+            <button className='btn' onClick={() => {
+                try {
+                    resetErrorBoundry();
+                } catch (e) {
+                }
+                navigate("/");
+            }}>
                 Refresh the page
             </button>
         </p>

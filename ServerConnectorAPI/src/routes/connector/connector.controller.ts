@@ -191,6 +191,8 @@ export class ConnectorController {
 
             const folderPath = `${os.type().toString().toLowerCase().includes('windows') ? foundUser.homedirForWindows : foundUser.homedirForLinux}`;
 
+            console.log(os.type().toString().toLowerCase(), folderPath)
+
             multerOptions.storage = diskStorage({
                 destination: (req, file, cb) => {
                     const destination = folderPath;
