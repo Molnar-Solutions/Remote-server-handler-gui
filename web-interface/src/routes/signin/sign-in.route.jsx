@@ -69,6 +69,8 @@ export default function SignIn() {
                 return;
             }
 
+            console.log(response)
+
             let apiResponse = response.data ?? response.Data;
 
             // User signed in.

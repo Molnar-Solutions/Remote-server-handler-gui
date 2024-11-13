@@ -24,15 +24,17 @@ export class UserController {
     };
 
     try {
-      response.Data = {
-        ...(await this.userService.signIn(user)),
-      };
+      let foundUser = await this.userService.signIn(user);
+
+      response.Data = foundUser;
 
       return response;
     } catch (error) {
       response.StatusCode = 400;
       response.Message = error.message;
     }
+
+    return response;
   }
 
   @UseGuards(AuthGuard)
@@ -57,6 +59,8 @@ export class UserController {
       response.StatusCode = 400;
       response.Message = error.message;
     }
+
+    return response;
   }
 
   @UseGuards(AuthGuard)
@@ -84,5 +88,7 @@ export class UserController {
       response.StatusCode = 400;
       response.Message = error.message;
     }
+
+    return response;
   }
 }
