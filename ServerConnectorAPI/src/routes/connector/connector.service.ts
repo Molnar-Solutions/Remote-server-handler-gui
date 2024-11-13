@@ -95,7 +95,7 @@ export class ConnectorService {
 
         const osType = os.type();
         const architecture = os.arch();
-        const cpuUsage = await this.getCpuUsage();
+        const cpuUsage = await this.getCpuUsage() * 100; // convert to percentage
 
         const availableMemory = os.freemem() / 1024 / 1024 / 1024;
         // KB      MB     GB
