@@ -95,9 +95,7 @@ export class ConnectorService {
 
         const osType = os.type();
         const architecture = os.arch();
-        const cpuUsage = os.type().toString().toLowerCase().includes('windows')
-            ? await this.getCpuUsageForWindows()
-            : await this.getCpuUsageForLinux();
+        const cpuUsage = await this.getCpuUsage();
 
         const availableMemory = os.freemem() / 1024 / 1024 / 1024;
         // KB      MB     GB
@@ -148,7 +146,7 @@ export class ConnectorService {
         });
     }
 
-    async getCpuUsageForWindows(): Promise<number> {
+    async getCpuUsage(): Promise<number> {
         return new Promise((resolve, reject) => {
             osUtils.cpuUsage((cpuUsage) => {
                 resolve(cpuUsage);
@@ -156,29 +154,10 @@ export class ConnectorService {
         });
     }
 
-    async getCpuUsageForLinux(): Promise<number> {
-        return new Promise((resolve, reject) => {
-            exec('top -n 1', (error, stdout, stderr) => {
-                if (error) {
-                    reject(new Error(`Error executing 'top': ${error.message}`));
-                } else {
-                    const lines = stdout.split('\n');
-                    const cpuLine = lines.find((line) => line.startsWith('Cpu(s)'));
-                    if (cpuLine) {
-                        const cpuUsageStr = cpuLine.split(' ')[1];
-                        const cpuUsage = parseFloat(cpuUsageStr.replace(/%/g, ''));
-                        resolve(cpuUsage);
-                    } else {
-                        reject(new Error('Could not find CPU usage information'));
-                    }
-                }
-            });
-        });
-    }
-
     async getLogsForLinux(): Promise<string[]> {
         const logFilePath =
-            'path/to/your/logs/application.log'; /* YOU HAVE TO REPLACE IT TO YOUR OWN DESIRES, but if you would like to use it for windows only then leave it as it was */
+            /* YOU HAVE TO ENABLE IT WITH SETUIDS OR WITH ACL */
+            '/var/log/nginx/error.log'; /* YOU HAVE TO REPLACE IT TO YOUR OWN DESIRES, but if you would like to use it for windows only then leave it as it was */
 
         return new Promise((resolve, reject) => {
             fs.readFile(logFilePath, 'utf8', (err, data) => {
