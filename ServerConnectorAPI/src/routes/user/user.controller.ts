@@ -46,6 +46,7 @@ export class UserController {
       Data: null,
       Date: new Date(),
     };
+    console.log('Sign out request => ', token);
 
     try {
       let res = await this.userService.signOut(token);

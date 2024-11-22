@@ -21,6 +21,10 @@
 		<Compile Remove="**\*.test.cs" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Data\Data.csproj" />
+	</ItemGroup>
+
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
