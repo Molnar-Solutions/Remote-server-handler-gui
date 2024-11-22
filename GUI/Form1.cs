@@ -136,7 +136,7 @@ namespace GUI
             var applicationStateRef = ApplicationStateManager.getInstance();
 
             /* Authentication */
-            using (NetworkClient client = new NetworkClient("http://localhost:3000/"))
+            using (NetworkClient client = new NetworkClient("http://localhost:9998/"))
             {
                 APIResponse userResponse = await client.PostAsync<SignInDto>("user/sign-in", new()
                 {

@@ -26,7 +26,7 @@ namespace GUI.service
             try
             {
                 /* Get files from the API */
-                using (NetworkClient client = new NetworkClient("http://localhost:3000/"))
+                using (NetworkClient client = new NetworkClient("http://localhost:9998/"))
                 {
                     APIResponse response = await client.PostAsync<GetFilesDto>("connector/list-files", new()
                     {
@@ -78,7 +78,7 @@ namespace GUI.service
             try
             {
                 /* Get files from the API */
-                using (NetworkClient client = new NetworkClient("http://localhost:3000/"))
+                using (NetworkClient client = new NetworkClient("http://localhost:9998/"))
                 {
                     APIResponse response = await client.GetAsync<APIResponse>($"connector/download-file?fileName={fileName}&email={_email}");
 
@@ -135,7 +135,7 @@ namespace GUI.service
             try
             {
                 /* Get files from the API */
-                using (NetworkClient client = new NetworkClient("http://localhost:3000/"))
+                using (NetworkClient client = new NetworkClient("http://localhost:9998/"))
                 {
                     APIResponse response = await client.PostAsync<RemoveFileDto>("connector/remove-file", new()
                     {
@@ -189,8 +189,9 @@ namespace GUI.service
 
                         // Add byte array to FormData
                         formData.Add(new ByteArrayContent(fileBytes), "fileContent", dialog.FileName);
+                        formData.Add(new StringContent(dialog.FileName), "fileName");
 
-                        var response = await client.PostAsync("http://localhost:3000/connector/upload-file", formData);
+                        var response = await client.PostAsync("http://localhost:9998/connector/upload-file", formData);
 
                         /* Response is okay */
                         if (response.IsSuccessStatusCode)

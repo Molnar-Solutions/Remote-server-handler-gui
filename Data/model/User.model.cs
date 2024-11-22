@@ -22,7 +22,7 @@ namespace GUI.model
 
         private string email;
         private string password;
-        private string apiUrl;
+        private string _chatChannel;
         private string token;
 
         private bool isLoggedIn;
@@ -50,13 +50,13 @@ namespace GUI.model
             set { token = value; }
         }
 
-        public string APIUrl
+        public string ChatChannel
         {
-            get { return apiUrl; }
+            get { return _chatChannel; }
             set
             {
-                apiUrl = value;
-                NotifyPropertyChanged("APIUrl");
+                _chatChannel = value;
+                NotifyPropertyChanged("ChatChannel");
             }
         }
 

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace GUI_WPF.viewModel
 {
@@ -22,6 +24,27 @@ namespace GUI_WPF.viewModel
         private FileTableDataModel _fileTableDataModel;
         #endregion
 
+        #region Main properties
+        public AuthenticationModel AuthModel
+        {
+            get { return _model; }
+            set { _model = value; }
+        }
+
+        public FileManagerModel FileManagerModel
+        {
+            get { return _fileManagerModel; }
+            set { _fileManagerModel = value; }
+        }
+
+        public FileTableDataModel FileTableDataModel
+        {
+            get { return _fileTableDataModel; }
+            set { _fileTableDataModel = value; }
+        }
+
+        #endregion
+
         #region Event classes
         public AuthenticationEvents AuthenticationEvents {  get; private set; }
         public FileManagerEvents FileManagerEvents { get; private set; }
@@ -36,17 +59,22 @@ namespace GUI_WPF.viewModel
 
             this._mainWindow = window;
 
+            Grid fileManagerGrid = (Grid)_mainWindow.FindName("fileManagerGrid") ?? null;
+            Grid chatManagerGrid = (Grid)_mainWindow.FindName("chatGrid") ?? null;
+
+            if (fileManagerGrid != null)
+            {
+                chatManagerGrid.Visibility = Visibility.Hidden;
+                fileManagerGrid.Visibility = System.Windows.Visibility.Hidden;
+            }
+            else
+            {
+                MessageBox.Show("Whoops! I cannot find the filemanagergrid!");
+                return;
+            }
 
             this.AuthenticationEvents = new(_model);
-            this.FileManagerEvents = new(_fileManagerModel, _fileTableDataModel);
-
-            /* Add data contexts */
-            /* Sign In / Sign Out */
-            _mainWindow.emailTextBox.DataContext = _model;
-            _mainWindow.passwordTextBox.DataContext = _model;
-            _mainWindow.apiUrlTextBox.DataContext = _model;
-
-            _mainWindow.filesDataGrid.ItemsSource = _fileManagerModel.TableContents;
+            this.FileManagerEvents = new(_fileManagerModel, _fileTableDataModel, fileManagerGrid);
         }
         #endregion
     }

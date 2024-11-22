@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Windows;
 
@@ -14,7 +15,6 @@ namespace GUI_WPF.service
 {
     public class FileManagerService
     {
-        
         public FileManagerService() {}
 
         /** Bind it to file manager button click */
@@ -31,7 +31,7 @@ namespace GUI_WPF.service
                 string _email = registryValue;
 
                 /* Get files from the API */
-                using (NetworkClient client = new NetworkClient("http://localhost:3000/"))
+                using (NetworkClient client = new NetworkClient("http://localhost:9998/"))
                 {
                     APIResponse response = await client.PostAsync<GetFilesDto>("connector/list-files", new()
                     {
@@ -45,6 +45,8 @@ namespace GUI_WPF.service
                     IEnumerable<FileTableDataModel>? files = System.Text.Json.JsonSerializer
                         .Deserialize<IEnumerable<FileTableDataModel>>(await jsonContent.ReadAsStringAsync());
 
+                    model.TableContents.Clear();
+
                     /* Load file contents into the table */
                     foreach (var file in files)
                     {
@@ -55,6 +57,18 @@ namespace GUI_WPF.service
                             sizeInBytes = file.sizeInBytes,
                             date = file.date,
                             privilege = file.privilege
+                        });
+                    }
+
+                    for (int i = 0; i < (model.TableContents.Count < 30 ? (30-model.TableContents.Count) : 0); i++)
+                    {
+                        model.TableContents.Add(new()
+                        {
+                            fileName = "",
+                            owner = "",
+                            sizeInBytes = 00,
+                            date = "",
+                            privilege = ""
                         });
                     }
                 }
@@ -87,7 +101,7 @@ namespace GUI_WPF.service
 
 
                 /* Get files from the API */
-                using (NetworkClient client = new NetworkClient("http://localhost:3000/"))
+                using (NetworkClient client = new NetworkClient("http://localhost:9998/"))
                 {
                     APIResponse response = await client.GetAsync<APIResponse>($"connector/download-file?fileName={selectedItem.fileName}&email={_email}");
 
@@ -113,6 +127,9 @@ namespace GUI_WPF.service
 
                             await fileStream.WriteAsync(dataAsByteArray.data, 0, dataAsByteArray.data.Length);
                             MessageBox.Show("The file successfully downloaded!");
+
+                            /* Refresh data table */
+                            await this._loadFileContents(model);
                         }
                     }
                     else
@@ -131,7 +148,7 @@ namespace GUI_WPF.service
         {
             var selectedItem = model.SelectedElement;
 
-            if (selectedItem is null)
+            if (selectedItem is null || selectedItem.isNull())
             {
                 MessageBox.Show("Whooops! You have to select a line before remove a file :)");
                 return;
@@ -149,7 +166,7 @@ namespace GUI_WPF.service
                 string _email = registryValue;
 
                 /* Get files from the API */
-                using (NetworkClient client = new NetworkClient("http://localhost:3000/"))
+                using (NetworkClient client = new NetworkClient("http://localhost:9998/"))
                 {
                     APIResponse response = await client.PostAsync<RemoveFileDto>("connector/remove-file", new()
                     {
@@ -164,8 +181,22 @@ namespace GUI_WPF.service
                     }
 
                     /* Refresh data table */
-                    model.TableContents.RemoveAll(x => x.fileName.ToLower() == selectedItem.fileName.ToLower());
+                    Int32 elementIndex = -1;
+                    Int32 i = 0;
+                    foreach (var element in model.TableContents)
+                    {
+                        if (element.fileName.ToLower().Equals(selectedItem.fileName.ToLower()))
+                        {
+                            elementIndex = i;
+                            break;
+                        }
+                        i++;
+                    }
+
                     MessageBox.Show($"File successfully deleted!");
+
+                    /* Refresh data table */
+                    await this._loadFileContents(model);
                 }
             }
             catch (Exception ex)
@@ -204,39 +235,33 @@ namespace GUI_WPF.service
 
                     using (HttpClient client = new HttpClient())
                     {
-                        var formData = new MultipartFormDataContent();
+                        var content = new MultipartFormDataContent("----WebKitFormBoundary7MA4YWxkTrZu0gW");
+
+                        /* Text fields */
+                        content.Add(new StringContent(_email), "email");
+                        content.Add(new StringContent(dialog.FileName), "fileName");
 
                         // Convert StreamContent to byte array
                         var fileBytes = await File.ReadAllBytesAsync(path);
 
                         // Add byte array to FormData
-                        formData.Add(new ByteArrayContent(fileBytes), "fileContent", dialog.FileName);
-
-                        var response = await client.PostAsync("http://localhost:3000/connector/upload-file", formData);
+                        var fileContent = new ByteArrayContent(fileBytes);
+                        content.Add(fileContent, "fileContent", dialog.FileName);
+                        var response = await client.PostAsync("http://localhost:9998/connector/upload-file",
+                            content);
 
                         /* Response is okay */
                         if (response.IsSuccessStatusCode)
                         {
                             MessageBox.Show("File successfully uploaded!");
+
+                            /* Refresh data table */
+                            await this._loadFileContents(data);
                             return;
                         }
 
                         /* Response is not okay */
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            MessageBox.Show($"Something went wrong during uploading your file, more info: {response.ReasonPhrase}");
-                            return;
-                        }
-
-                        /* Refresh data table */
-                        data.TableContents.Add(new()
-                        {
-                            date = DateTime.Now.ToLongDateString(),
-                            fileName = dialog.FileName,
-                            owner = _email,
-                            privilege = $"{324552}",
-                            sizeInBytes = fileBytes.Length
-                        });
+                        MessageBox.Show($"Something went wrong during uploading your file, more info: {response.ReasonPhrase}");
                     }
                 }
 

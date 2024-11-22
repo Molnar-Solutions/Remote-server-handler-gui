@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GUI_WPF.events
 {
@@ -33,6 +34,10 @@ namespace GUI_WPF.events
 
     public class FileManagerEvents
     {
+        #region Useful variables
+        private static bool isClicked = true;
+        #endregion
+
         #region References
         private FileManagerModel _model;
         private FileTableDataModel _fileTableDataModel;
@@ -54,7 +59,7 @@ namespace GUI_WPF.events
         public DelegateCommand DownloadFileCommand { get; set; }
         #endregion
 
-        public FileManagerEvents(FileManagerModel fm, FileTableDataModel ftd)
+        public FileManagerEvents(FileManagerModel fm, FileTableDataModel ftd, Grid fileManagerGrid)
         {
             this._model=fm;
             this._fileTableDataModel=ftd;
@@ -67,7 +72,7 @@ namespace GUI_WPF.events
             UploadFileCommand = new DelegateCommand(param => OnUploadFile());
             RemoveFileCommand = new DelegateCommand(param => OnRemoveFile());
             DownloadFileCommand = new DelegateCommand(param => OnDownloadFile());
-            FileManagerMenuCommand = new DelegateCommand(param => OnOpenFileManager());
+            FileManagerMenuCommand = new DelegateCommand(param => OnOpenFileManager(fileManagerGrid));
 
             /* Register event handlers */
             UploadFileEvent += new EventHandler<FileManagerEventArg>(UploadFile);
@@ -140,7 +145,7 @@ namespace GUI_WPF.events
             DownloadFileEvent?.Invoke(this, new FileManagerEventArg(_model, _fileTableDataModel));
         }
 
-        private void OnOpenFileManager()
+        private void OnOpenFileManager(Grid fileManagerGrid)
         {
             /* Check logged in status */
             string? registryValue = _registryConfig.GetConfigValue("isLoggedIn");
@@ -156,6 +161,19 @@ namespace GUI_WPF.events
                 MessageBox.Show("Whoops! You are not logged in!");
                 return;
             }
+
+            /* Show grid */
+            if (isClicked)
+            {
+                fileManagerGrid.Visibility = Visibility.Visible;
+                isClicked = !isClicked;
+            }
+            else
+            {
+                fileManagerGrid.Visibility = Visibility.Hidden;
+                isClicked = !isClicked;
+            }
+
 
             /* Raise event */
             FileManagerMenuEvent.Invoke(this, new FileManagerEventArg(_model, _fileTableDataModel));

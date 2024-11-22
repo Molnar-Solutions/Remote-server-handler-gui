@@ -12,11 +12,17 @@ namespace Data.model
     {
         #region private members
         private FileTableDataModel _selectedElement;
-        private List<FileTableDataModel> _tableContents;
+        private ObservableCollection<FileTableDataModel> _tableContents;
         #endregion
 
+        public FileManagerModel()
+        {
+            _selectedElement = new FileTableDataModel();
+            _tableContents = new ObservableCollection<FileTableDataModel>();
+        }
+
         #region Public properties
-        public List<FileTableDataModel> TableContents {
+        public ObservableCollection<FileTableDataModel> TableContents {
             get {  return _tableContents; }
             set { _tableContents = value; }
         }
@@ -26,6 +32,7 @@ namespace Data.model
             get { return _selectedElement; }
             set { _selectedElement = value; }
         }
+
         #endregion
     }
 }

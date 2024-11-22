@@ -116,6 +116,36 @@ namespace MD_Networking
 
                     return result;
                 }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 400;
+                response.Message = $"{ex.Message}";
+            }
+
+            return response;
+        }
+
+        public async Task<APIResponse> PostMultipartAsync(string queryString, MultipartFormDataContent data)
+        {
+            APIResponse response = new APIResponse();
+
+            try
+            {
+                using (HttpResponseMessage httpResponse = await _httpClient.PostAsync(
+                    _baseURL + queryString,
+                    data))
+                {
+                    if (!httpResponse.IsSuccessStatusCode)
+                    {
+                        throw new Exception(httpResponse.ReasonPhrase);
+                    }
+
+                    var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+                    APIResponse result = System.Text.Json.JsonSerializer.Deserialize<APIResponse>(jsonResponse);
+
+                    return result;
+                }
             } catch (Exception ex)
             {
                 response.StatusCode = 400;

@@ -13,6 +13,12 @@ namespace GUI.model
         public int sizeInBytes { get; set; }
         public string date { get; set; }
         public string fileName { get; set; }
+
+        public bool isNull()
+        {
+            return (string.IsNullOrEmpty(fileName)) || string.IsNullOrEmpty(date) || string.IsNullOrEmpty(owner)
+                || string.IsNullOrEmpty(privilege);
+        }
     }
 
     public record struct GetFilesDto(

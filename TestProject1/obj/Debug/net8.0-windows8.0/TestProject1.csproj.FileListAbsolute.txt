@@ -101,9 +101,11 @@ D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\tr\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\zh-Hans\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\Data.dll
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\GUI.dll
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\GUI.pdb
+D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\Data.pdb
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\obj\Debug\net8.0-windows8.0\TestProject1.csproj.AssemblyReference.cache
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\obj\Debug\net8.0-windows8.0\TestProject1.GeneratedMSBuildEditorConfig.editorconfig

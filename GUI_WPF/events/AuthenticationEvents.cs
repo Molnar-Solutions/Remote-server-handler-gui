@@ -90,9 +90,9 @@ namespace GUI_WPF.events
                 return;
             }
 
-            if (string.IsNullOrEmpty(e.Model.APIUrl))
+            if (string.IsNullOrEmpty(e.Model.ChatChannel))
             {
-                MessageBox.Show("Whoops! The password field cannot be empty!");
+                MessageBox.Show("Whoops! The chat channel field cannot be empty!");
                 return;
             }
 
