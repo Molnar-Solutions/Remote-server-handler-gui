@@ -10,3 +10,4 @@ D:\Organizations\Molnar-Solutions\server-handler-gui\Data\obj\Debug\net8.0\Data.
 D:\Organizations\Molnar-Solutions\server-handler-gui\Data\obj\Debug\net8.0\refint\Data.dll
 D:\Organizations\Molnar-Solutions\server-handler-gui\Data\obj\Debug\net8.0\Data.pdb
 D:\Organizations\Molnar-Solutions\server-handler-gui\Data\obj\Debug\net8.0\ref\Data.dll
+D:\Organizations\Molnar-Solutions\server-handler-gui\Data\obj\Debug\net8.0\Data.csproj.AssemblyReference.cache

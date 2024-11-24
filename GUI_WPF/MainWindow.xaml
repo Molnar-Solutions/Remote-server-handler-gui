@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI_WPF"
         mc:Ignorable="d"
-        Title="Server Handler GUI" Height="600" Width="700">
-    <Grid>
+        Title="Server Handler GUI" Height="630" Width="758">
+    <Grid Margin="0,0,-58,-6">
         <Image HorizontalAlignment="Left" Height="82" Margin="46,10,0,0" VerticalAlignment="Top" Width="75" Source="/computer-156951_640.png" RenderTransformOrigin="2.013,-5.217"/>
         <Label Content="Sign In" HorizontalAlignment="Left" Margin="576,0,0,0" FontSize="18" VerticalAlignment="Top"/>
         <TextBox Text="{Binding AuthModel.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="556,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="22" />
@@ -18,8 +18,8 @@
         <Label Content="Password: " FontSize="13" HorizontalAlignment="Left" Margin="442,62,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.298,0.079" Height="32" Width="92"/>
         <Label Content="Chat channel:" FontSize="13" HorizontalAlignment="Left" Margin="442,96,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.298,0.079" Height="28" Width="103"/>
         <Button Command="{Binding FileManagerEvents.FileManagerMenuCommand}" Content="File Manager" HorizontalAlignment="Left" Margin="44,177,0,0" VerticalAlignment="Top"/>
+        <Button Command="{Binding ChatManagerEvents.OpenChatMenu}"  Content="Chat" HorizontalAlignment="Left" Margin="44,204,0,0" VerticalAlignment="Top" Width="73"/>
         <Label Content="Server Handler GUI" FontSize="20" HorizontalAlignment="Left" Margin="126,35,0,0" VerticalAlignment="Top" Width="185"/>
-        <Button Content="Chat" HorizontalAlignment="Left" Margin="44,204,0,0" VerticalAlignment="Top" Width="73"/>
         <Grid Name="fileManagerGrid" Visibility="Hidden" Margin="147,177,36,25">
             <DataGrid ItemsSource="{Binding FileManagerModel.TableContents, Mode=TwoWay}" SelectionMode="Single"  SelectedItem="{Binding FileManagerModel.SelectedElement, Mode=TwoWay}" Margin="0,26,10,10"/>
             <Button Content="Upload" Command="{Binding FileManagerEvents.UploadFileCommand}" HorizontalAlignment="Left" Margin="0,-1,0,0" VerticalAlignment="Top" Width="80"/>
@@ -27,9 +27,9 @@
             <Button Content="Download" Command="{Binding FileManagerEvents.DownloadFileCommand}" HorizontalAlignment="Left" Margin="179,-1,0,0" VerticalAlignment="Top" Width="80" />
         </Grid>
         <Grid Name="chatGrid" Margin="147,177,36,25">
-            <Button Content="Send" Command="{Binding ChatManagerEvents.SendMessage}" HorizontalAlignment="Left" Margin="435,339,0,0" VerticalAlignment="Top" Width="72" Height="27"/>
-            <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="505" Height="329" Margin="2,0,0,0"/>
-            <TextBox HorizontalAlignment="Left" Margin="2,339,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="419" Height="27"/>
+            <Button Content="Send" Command="{Binding ChatManagerEvents.SubmitClientMessage}" HorizontalAlignment="Left" Margin="435,339,0,0" VerticalAlignment="Top" Width="72" Height="27"/>
+            <ListBox ItemsSource="{Binding ChatModel.Messages}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="505" Height="279" Margin="2,0,0,0"/>
+            <TextBox Text="{Binding ChatModel.CurrentMessage}" HorizontalAlignment="Left" Margin="2,339,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="411" Height="27"/>
         </Grid>
     </Grid>
 </Window>

@@ -1,8 +1,11 @@
-﻿using GUI.model;
+﻿using Encryptions;
+using GUI.model;
 using GUI_WPF.events;
 using GUI_WPF.viewModel;
 using System.Configuration;
 using System.Data;
+using System.Net.Sockets;
+using System.Text;
 using System.Windows;
 
 namespace GUI_WPF
@@ -15,6 +18,12 @@ namespace GUI_WPF
     public partial class App : Application
     {
         private MainWindow _mainWindow;
+
+        #region Constants
+        public static string ENCRYPTION_KEY = "asdgasd3lklj23ljfh2ou3hro28f48hh4fhl8chjvhjw4848483ldj//!!++";
+        public static string CHAT_SERVER_HOST = "127.0.0.1";
+        public static Int32 CHAT_SERVER_PORT = 2546;
+        #endregion
 
         /* View model and main context(s) */
         private MainViewModel _mainViewModel;

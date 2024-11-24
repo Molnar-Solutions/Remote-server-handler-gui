@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "T63QXfhicKiD0JbBQ5xTq+9AttukngtwLOInY0adflqfxQLWLPmP3WSXWljqUYcdC3fUCu6XiUn5fwuI2Xpu4A==",
+  "dgSpecHash": "DtF66K7H1OZ937gsmi67zCe+w4usJYhSsWWgwNIBa/023I9h6gFt+V6COtQS5Ln+SQVuUH0LGxRLWTMbLYDcCw==",
   "success": true,
   "projectFilePath": "D:\\Organizations\\Molnar-Solutions\\server-handler-gui\\Data\\Data.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\DanielMolnar\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\DanielMolnar\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.0\\system.security.cryptography.protecteddata.9.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

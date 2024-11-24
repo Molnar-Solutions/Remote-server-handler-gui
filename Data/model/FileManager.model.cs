@@ -21,7 +21,7 @@ namespace Data.model
             _tableContents = new ObservableCollection<FileTableDataModel>();
         }
 
-        #region Public properties
+        #region Public properties 
         public ObservableCollection<FileTableDataModel> TableContents {
             get {  return _tableContents; }
             set { _tableContents = value; }

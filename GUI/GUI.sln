@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GUI", "GUI.csproj", "{6A1FA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject1", "..\TestProject1\TestProject1.csproj", "{6DD3B41F-8F5F-4741-B318-067F63D951AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "..\Data\Data.csproj", "{78B93A51-F630-4A97-8381-3122C37EE8D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "..\Data\Data.csproj", "{78B93A51-F630-4A97-8381-3122C37EE8D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI_WPF", "..\GUI_WPF\GUI_WPF.csproj", "{52FB7743-151A-4EE2-82DB-AB9415125CAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GUI_WPF", "..\GUI_WPF\GUI_WPF.csproj", "{52FB7743-151A-4EE2-82DB-AB9415125CAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatServer", "..\ChatServer\ChatServer.csproj", "{231B585D-B0A7-4042-AC17-6973E2CBE1DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{52FB7743-151A-4EE2-82DB-AB9415125CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52FB7743-151A-4EE2-82DB-AB9415125CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52FB7743-151A-4EE2-82DB-AB9415125CAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{231B585D-B0A7-4042-AC17-6973E2CBE1DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{231B585D-B0A7-4042-AC17-6973E2CBE1DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{231B585D-B0A7-4042-AC17-6973E2CBE1DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{231B585D-B0A7-4042-AC17-6973E2CBE1DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

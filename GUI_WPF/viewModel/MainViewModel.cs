@@ -1,9 +1,11 @@
 ﻿using Data.model;
+using Encryptions;
 using GUI.model;
 using GUI_WPF.events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,13 +24,21 @@ namespace GUI_WPF.viewModel
 
         private FileManagerModel _fileManagerModel;
         private FileTableDataModel _fileTableDataModel;
+
+        private ChatModel _chatModel;
         #endregion
 
-        #region Main properties
+        #region Main properties for models
         public AuthenticationModel AuthModel
         {
             get { return _model; }
             set { _model = value; }
+        }
+
+        public ChatModel ChatModel
+        {
+            get { return _chatModel; }
+            set { _chatModel = value; }
         }
 
         public FileManagerModel FileManagerModel
@@ -48,6 +58,7 @@ namespace GUI_WPF.viewModel
         #region Event classes
         public AuthenticationEvents AuthenticationEvents {  get; private set; }
         public FileManagerEvents FileManagerEvents { get; private set; }
+        public ChatManagerEvents ChatManagerEvents { get; private set; }
         #endregion
 
         #region Constructors
@@ -56,13 +67,14 @@ namespace GUI_WPF.viewModel
             this._model = new();
             this._fileManagerModel = new FileManagerModel();
             this._fileTableDataModel = new FileTableDataModel();
+            this._chatModel = new ChatModel();
 
             this._mainWindow = window;
 
             Grid fileManagerGrid = (Grid)_mainWindow.FindName("fileManagerGrid") ?? null;
             Grid chatManagerGrid = (Grid)_mainWindow.FindName("chatGrid") ?? null;
 
-            if (fileManagerGrid != null)
+            if (fileManagerGrid != null && chatManagerGrid != null)
             {
                 chatManagerGrid.Visibility = Visibility.Hidden;
                 fileManagerGrid.Visibility = System.Windows.Visibility.Hidden;
@@ -75,6 +87,27 @@ namespace GUI_WPF.viewModel
 
             this.AuthenticationEvents = new(_model);
             this.FileManagerEvents = new(_fileManagerModel, _fileTableDataModel, fileManagerGrid);
+            this.ChatManagerEvents = new(_chatModel, chatManagerGrid);
+        }
+        #endregion
+
+        #region Chat functions
+        private byte[] _extractData(byte[] input)
+        {
+            try
+            {
+                for (int i = 0; i < input.Length; i += 16)
+                {
+                    if (input[i] == 0)
+                    {
+                        return input[0..(i)];
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return input;
         }
         #endregion
     }

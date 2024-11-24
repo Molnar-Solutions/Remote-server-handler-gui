@@ -20,6 +20,7 @@ namespace GUI.model
         #region private members
         private Int32 id;
 
+        private string name;
         private string email;
         private string password;
         private string _chatChannel;
@@ -59,6 +60,16 @@ namespace GUI.model
                 NotifyPropertyChanged("ChatChannel");
             }
         }
+
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+            }
+        }
+
 
         public string Email
         {
