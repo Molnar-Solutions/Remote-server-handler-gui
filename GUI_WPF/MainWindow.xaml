@@ -28,8 +28,8 @@
         </Grid>
         <Grid Name="chatGrid" Margin="147,177,36,25">
             <Button Content="Send" Command="{Binding ChatManagerEvents.SubmitClientMessage}" HorizontalAlignment="Left" Margin="435,339,0,0" VerticalAlignment="Top" Width="72" Height="27"/>
-            <ListBox ItemsSource="{Binding ChatModel.Messages}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="505" Height="279" Margin="2,0,0,0"/>
-            <TextBox Text="{Binding ChatModel.CurrentMessage}" HorizontalAlignment="Left" Margin="2,339,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="411" Height="27"/>
+            <ListBox ItemsSource="{Binding ChatModel.Messages, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="505" Height="279" Margin="2,0,0,0"/>
+            <TextBox Text="{Binding ChatModel.CurrentMessage, Mode=TwoWay}" HorizontalAlignment="Left" Margin="2,339,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="411" Height="27"/>
         </Grid>
     </Grid>
 </Window>

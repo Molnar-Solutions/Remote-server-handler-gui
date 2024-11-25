@@ -119,3 +119,4 @@ D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\obj\Debug\net8
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\obj\Debug\net8.0-windows8.0\TestProject1.pdb
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\obj\Debug\net8.0-windows8.0\TestProject1.genruntimeconfig.cache
 D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\obj\Debug\net8.0-windows8.0\ref\TestProject1.dll
+D:\Organizations\Molnar-Solutions\server-handler-gui\TestProject1\bin\Debug\net8.0-windows8.0\System.Security.Cryptography.ProtectedData.dll

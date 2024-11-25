@@ -134,6 +134,7 @@ namespace GUI_WPF.events
 
                     /* Clear user message input */
                     args.ChatModel.CurrentMessage = "";
+                    _chatModel.CurrentMessage = "";
                 }
             }
             catch (Exception ex)
