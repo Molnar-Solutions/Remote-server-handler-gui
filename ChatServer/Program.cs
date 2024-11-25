@@ -1,10 +1,8 @@
 ﻿using Encryptions;
 using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ChatServer
 {
@@ -23,9 +21,6 @@ namespace ChatServer
     public class Program
     {
         private static Int32 PORT = 2546;
-        private static volatile bool IS_RUNNING = true;
-
-        static readonly List<TcpClient> clients = new();
 
         private static string _encryptionKey = "asdgasd3lklj23ljfh2ou3hro28f48hh4fhl8chjvhjw4848483ldj//!!++";
 
@@ -78,8 +73,10 @@ namespace ChatServer
                         // If I would like to skip the client then if (c != client) { ... }
                         try
                         {
-                            /* Encrypt the msg */
-                            byte[] sendingData = Encoding.UTF8.GetBytes(message);
+                            /* Encrypt the msg (If you want to change it change it in the 'ChatManagerEvents' class at 126th line :) hehe) */
+                            string messageFormat = $"{client.Client.RemoteEndPoint}{message}";
+
+                            byte[] sendingData = Encoding.UTF8.GetBytes(messageFormat);
                             sendingData = Encryption.EncryptAesCBC(sendingData, _encryptionKey);
 
                             /* Send it */

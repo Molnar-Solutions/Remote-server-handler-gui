@@ -96,6 +96,27 @@ namespace GUI_WPF.events
                 return;
             }
 
+            try
+            {
+                string[] splitted = e.Model.ChatChannel.Split(":");
+
+                if (splitted is null || splitted.Length == 0)
+                {
+                    MessageBox.Show("Invalid chat channel format preferred(127.0.0.1:2546) (host:port)!");
+                    return;
+                }
+
+                string host = splitted[0];
+                Int32 port = Int32.Parse(splitted[1]);
+
+                App.CHAT_SERVER_HOST = host;
+                App.CHAT_SERVER_PORT = port;
+            } catch (Exception ex)
+            {
+                MessageBox.Show("Invalid chat channel format preferred(127.0.0.1:2546) (host:port)!");
+                return;
+            }
+
             /* Create sign in action & store values in a registry */
             await _service.SignIn(e.Model);
         }

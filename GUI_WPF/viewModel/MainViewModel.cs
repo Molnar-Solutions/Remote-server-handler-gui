@@ -90,25 +90,5 @@ namespace GUI_WPF.viewModel
             this.ChatManagerEvents = new(_chatModel, chatManagerGrid);
         }
         #endregion
-
-        #region Chat functions
-        private byte[] _extractData(byte[] input)
-        {
-            try
-            {
-                for (int i = 0; i < input.Length; i += 16)
-                {
-                    if (input[i] == 0)
-                    {
-                        return input[0..(i)];
-                    }
-                }
-            }
-            catch
-            {
-            }
-            return input;
-        }
-        #endregion
     }
 }

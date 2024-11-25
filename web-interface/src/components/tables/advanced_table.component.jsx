@@ -116,7 +116,7 @@ export default function AdvancedTable({
                 }
 
                 {
-                    rows.length < rowsPerPage && generateEmptyRows(rowsPerPage - rows.length).map((row, i) => (
+                    rows && rows?.length && rows.length < rowsPerPage && generateEmptyRows(rowsPerPage - rows.length).map((row, i) => (
                         <tr key={row + " " + i}></tr>
                     ))
                 }

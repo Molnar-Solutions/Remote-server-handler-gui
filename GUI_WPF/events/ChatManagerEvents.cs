@@ -1,6 +1,7 @@
 ﻿using Data.model;
 using Encryptions;
 using GUI_WPF.viewModel;
+using MD_Store.Lib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace GUI_WPF.events
         private Grid _chatManagerGrid;
         private TcpClient _tcpClient;
         private Dispatcher dispatcher;
+        private RegistryConfig registryConfig;
         #endregion
 
         #region Registered event handlers
@@ -56,6 +58,7 @@ namespace GUI_WPF.events
         {
             this._chatModel= cm;
             this._chatManagerGrid = chatManagerGrid;
+            this.registryConfig = RegistryConfig.Init();
 
             /* Register commands */
             SubmitClientMessage = new DelegateCommand(param => OnSubmitClientMessage());
@@ -73,6 +76,21 @@ namespace GUI_WPF.events
 
         private void OnOpenChatMenu()
         {
+            /* Check logged in status */
+            string? registryValue = RegistryConfig.Init().GetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn");
+            bool isLoggedIn = false;
+
+            if (!string.IsNullOrEmpty(registryValue))
+            {
+                isLoggedIn = Boolean.Parse(registryValue);
+            }
+
+            if (isLoggedIn == false)
+            {
+                MessageBox.Show("Whoops! You are not logged in!");
+                return;
+            }
+
             /* Show grid */
             if (isClicked)
             {
@@ -105,12 +123,17 @@ namespace GUI_WPF.events
 
                 using (var stream = _tcpClient.GetStream())
                 {
-                    /* Encrypt the msg */
-                    byte[] sendingData = Encoding.UTF8.GetBytes(args.ChatModel.CurrentMessage);
+                    /* Encrypt the msg   @NAME: <message>    */
+                    string? userName = registryConfig.GetConfigValue($"{App.ACTIVE_USER_ID}", "userName");
+                    string formattedSendingMessage = $"@{userName}  {args.ChatModel.CurrentMessage}";
+                    byte[] sendingData = Encoding.UTF8.GetBytes(formattedSendingMessage);
                     sendingData = Encryption.EncryptAesCBC(sendingData, App.ENCRYPTION_KEY);
 
                     await stream.WriteAsync(sendingData);
                     await ReceiveMessages(_tcpClient, _chatModel);
+
+                    /* Clear user message input */
+                    args.ChatModel.CurrentMessage = "";
                 }
             }
             catch (Exception ex)

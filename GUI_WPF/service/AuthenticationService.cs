@@ -25,7 +25,7 @@ namespace GUI_WPF.service
             try
             {
                 /* Check logged in status */
-                string? registryValue = _config.GetConfigValue("isLoggedIn");
+                string? registryValue = _config.GetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn");
                 bool isLoggedIn = false;
 
                 if (!string.IsNullOrEmpty(registryValue))
@@ -57,14 +57,18 @@ namespace GUI_WPF.service
                         return;
                     }
 
+                    /* Set the active user */
+                    App.ACTIVE_USER_ID = userData.id;
+
                     /* Save response data to the registry */
-                    _config.SetConfigValue("userId", $"{userData.id}");
-                    _config.SetConfigValue("userEmail", $"{userData.email}");
-                    _config.SetConfigValue("userName", $"{userData.name}");
-                    _config.SetConfigValue("userToken", $"{userData.token}");
-                    _config.SetConfigValue("isLoggedIn", "true");
+                    /* set active user data in a different folder */
+                    _config.SetConfigValue($"{userData.id}", "userId", $"{userData.id}");
+                    _config.SetConfigValue($"{userData.id}", "userEmail", $"{userData.email}");
+                    _config.SetConfigValue($"{userData.id}", "userName", $"{userData.name}");
+                    _config.SetConfigValue($"{userData.id}", "userToken", $"{userData.token}");
+                    _config.SetConfigValue($"{userData.id}", "isLoggedIn", "true");
                     /* Token is active for 8 hours, if the time gap is longer than I remove all the data that I set into the registry */
-                    _config.SetConfigValue("loggedInTimeStamp", $"{DateTime.Now.ToString()}");
+                    _config.SetConfigValue($"{userData.id}", "loggedInTimeStamp", $"{DateTime.Now.ToString()}");
 
                     MessageBox.Show($"Hello, {userData.name}!");
                 }
@@ -79,7 +83,7 @@ namespace GUI_WPF.service
             try
             {
                 /* Check logged in status */
-                string? registryValue = _config.GetConfigValue("isLoggedIn");
+                string? registryValue = _config.GetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn");
                 bool isLoggedIn = false;
 
                 if (!string.IsNullOrEmpty(registryValue))
@@ -93,17 +97,18 @@ namespace GUI_WPF.service
                     return;
                 }
 
-                string loggedInTimeStamp = _config.GetConfigValue("loggedInTimeStamp");
+                string loggedInTimeStamp = _config.GetConfigValue($"{App.ACTIVE_USER_ID}", "loggedInTimeStamp");
 
                 if (string.IsNullOrEmpty(loggedInTimeStamp))
                 {
                     /* The system do not save the logged in timestamp so remove everything */
-                    _config.SetConfigValue("userId", "");
-                    _config.SetConfigValue("userEmail", "");
-                    _config.SetConfigValue("userName", "");
-                    _config.SetConfigValue("userToken", "");
-                    _config.SetConfigValue("loggedInTimeStamp", "");
-                    _config.SetConfigValue("isLoggedIn", "false");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userId", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userEmail", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userName", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userToken", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "loggedInTimeStamp", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn", "false");
+                    _config.RemoveConfigDir($"{App.ACTIVE_USER_ID}");
                     return;
                 }
 
@@ -116,16 +121,17 @@ namespace GUI_WPF.service
                 if (now > expireDate)
                 {
                     MessageBox.Show("Whoops! Your token is expired! You signed out by the system!");
-                    _config.SetConfigValue("userId", "");
-                    _config.SetConfigValue("userEmail", "");
-                    _config.SetConfigValue("userName", "");
-                    _config.SetConfigValue("userToken", "");
-                    _config.SetConfigValue("loggedInTimeStamp", "");
-                    _config.SetConfigValue("isLoggedIn", "false");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userId", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userEmail", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userName", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userToken", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "loggedInTimeStamp", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn", "false");
+                    _config.RemoveConfigDir($"{App.ACTIVE_USER_ID}");
                     return;
                 }
 
-                string userToken = _config.GetConfigValue("userToken");
+                string userToken = _config.GetConfigValue($"{App.ACTIVE_USER_ID}", "userToken");
 
                 if (string.IsNullOrEmpty(userToken))
                 {
@@ -148,12 +154,13 @@ namespace GUI_WPF.service
 
                     /* The user successfully logged out */
                     /* Save new data to the registry */
-                    _config.SetConfigValue("userId", "");
-                    _config.SetConfigValue("userEmail", "");
-                    _config.SetConfigValue("userName", "");
-                    _config.SetConfigValue("userToken", "");
-                    _config.SetConfigValue("loggedInTimeStamp", "");
-                    _config.SetConfigValue("isLoggedIn", "false");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userId", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userEmail", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userName", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "userToken", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "loggedInTimeStamp", "");
+                    _config.SetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn", "false");
+                    _config.RemoveConfigDir($"{App.ACTIVE_USER_ID}");
 
                     MessageBox.Show($"Goodbye :(");
                 }

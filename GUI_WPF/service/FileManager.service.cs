@@ -22,7 +22,7 @@ namespace GUI_WPF.service
         {
             try
             {
-                string? registryValue = RegistryConfig.Init().GetConfigValue("userEmail");
+                string? registryValue = RegistryConfig.Init().GetConfigValue($"{App.ACTIVE_USER_ID}", "userEmail");
                 if (string.IsNullOrEmpty(registryValue))
                 {
                     throw new Exception("Whooops! The userEmail property is not found!");
@@ -91,7 +91,7 @@ namespace GUI_WPF.service
             /* Send download request to the API */
             try
             {
-                string? registryValue = RegistryConfig.Init().GetConfigValue("userEmail");
+                string? registryValue = RegistryConfig.Init().GetConfigValue($"{App.ACTIVE_USER_ID}", "userEmail");
                 if (string.IsNullOrEmpty(registryValue))
                 {
                     throw new Exception("Whooops! The userEmail property is not found!");
@@ -157,7 +157,7 @@ namespace GUI_WPF.service
             /* Send delete request to the API */
             try
             {
-                string? registryValue = RegistryConfig.Init().GetConfigValue("userEmail");
+                string? registryValue = RegistryConfig.Init().GetConfigValue($"{App.ACTIVE_USER_ID}", "userEmail");
                 if (string.IsNullOrEmpty(registryValue))
                 {
                     throw new Exception("Whooops! The userEmail property is not found!");
@@ -209,7 +209,7 @@ namespace GUI_WPF.service
         {
             try
             {
-                string? registryValue = RegistryConfig.Init().GetConfigValue("userEmail");
+                string? registryValue = RegistryConfig.Init().GetConfigValue($"{App.ACTIVE_USER_ID}", "userEmail");
                 if (string.IsNullOrEmpty(registryValue))
                 {
                     throw new Exception("Whooops! The userEmail property is not found!");

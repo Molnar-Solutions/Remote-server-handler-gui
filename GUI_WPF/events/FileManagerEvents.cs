@@ -85,7 +85,7 @@ namespace GUI_WPF.events
         private void OnUploadFile()
         {
             /* Check logged in status */
-            string? registryValue = _registryConfig.GetConfigValue("isLoggedIn");
+            string? registryValue = _registryConfig.GetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn");
             bool isLoggedIn = false;
 
             if (!string.IsNullOrEmpty(registryValue))
@@ -106,7 +106,7 @@ namespace GUI_WPF.events
         private void OnRemoveFile()
         {
             /* Check logged in status */
-            string? registryValue = _registryConfig.GetConfigValue("isLoggedIn");
+            string? registryValue = _registryConfig.GetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn");
             bool isLoggedIn = false;
 
             if (!string.IsNullOrEmpty(registryValue))
@@ -127,7 +127,7 @@ namespace GUI_WPF.events
         private void OnDownloadFile()
         {
             /* Check logged in status */
-            string? registryValue = _registryConfig.GetConfigValue("isLoggedIn");
+            string? registryValue = _registryConfig.GetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn");
             bool isLoggedIn = false;
 
             if (!string.IsNullOrEmpty(registryValue))
@@ -148,7 +148,7 @@ namespace GUI_WPF.events
         private void OnOpenFileManager(Grid fileManagerGrid)
         {
             /* Check logged in status */
-            string? registryValue = _registryConfig.GetConfigValue("isLoggedIn");
+            string? registryValue = _registryConfig.GetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn");
             bool isLoggedIn = false;
 
             if (!string.IsNullOrEmpty(registryValue))

@@ -23,6 +23,7 @@ namespace GUI_WPF
         public static string ENCRYPTION_KEY = "asdgasd3lklj23ljfh2ou3hro28f48hh4fhl8chjvhjw4848483ldj//!!++";
         public static string CHAT_SERVER_HOST = "127.0.0.1";
         public static Int32 CHAT_SERVER_PORT = 2546;
+        public static Int32 ACTIVE_USER_ID = -1;
         #endregion
 
         /* View model and main context(s) */
