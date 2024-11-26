@@ -14,14 +14,14 @@ If you would like to start the project then follow these steps:
 - If you want to run some tests then click to the UnitTest.cs and run tests
 - When the application is shown, then you have to fill the API_URL field and enter your API: http://localhost:3000/user/sign-in
 - If you would like to use your own, then you have to do the following routes
-- ### /connector/upload-file POST
-- ### /connector/system-health POST
-- ### /connector/download-file GET
-- ### /connector/remove-file POST
-- ### /connector/list-files POST
-- ### /user/loggedin POST
-- ### /user/sign-out POST
-- ### /user/sign-in POST
+-  /connector/upload-file POST
+-  /connector/system-health POST
+-  /connector/download-file GET
+-  /connector/remove-file POST
+-  /connector/list-files POST
+-  /user/loggedin POST
+-  /user/sign-out POST
+-  /user/sign-in POST
   
 ### In the root folder I put an exported sql file and you can use it if you want :)
 
