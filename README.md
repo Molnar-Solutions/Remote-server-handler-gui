@@ -75,5 +75,26 @@ If you would like to start the project then follow these steps:
 ### System health
 ![image](https://github.com/user-attachments/assets/e817a142-147f-47fa-a5f8-add7532e8b73)
 
+# How to setup the WPF application?
+- Open the project sln (main)
+- Select multiple startup project (first must be the ChatServer and the second is the WPF itself)
+- After that just run it
+- Now, you can log in with your preferred account
+- If you want a new gui just open up the project in a seperate visual studio and select single startup project and select wpf
+- after just start it
+- probably this time you will see the sign in part on the right. When I sign in pay attention to the chat channel because if you join another chat server you won't be able to chat with your first gui instance.
+  the basic chat server is running on the pc's loopback address and port 2546 (but you can see it in the code)
+- After connecting and signed in, you can chat with the logged in parties
+- Have fun :)
 
+# [Desktop application - WPF pictures]
+
+### Administrator is not logged in
+![image](https://github.com/user-attachments/assets/c9e1e0ff-da07-4a8d-99d7-4a30bf81faa7)
+
+### File manager
+![image](https://github.com/user-attachments/assets/1d636dc7-dfe8-4fd1-9b69-e373c424d460)
+
+### Chat with active administrators
+![image](https://github.com/user-attachments/assets/9d55646a-fc1c-422d-bf6f-9acfa1048cfc)
 
