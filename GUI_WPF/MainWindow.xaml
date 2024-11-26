@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI_WPF"
         mc:Ignorable="d"
-        Title="Server Handler GUI" Height="630" Width="758">
+        Title="Server Handler GUI" Height="630" Width="758" ResizeMode="NoResize">
     <Grid Margin="0,0,-58,-6">
         <Image HorizontalAlignment="Left" Height="82" Margin="46,10,0,0" VerticalAlignment="Top" Width="75" Source="/computer-156951_640.png" RenderTransformOrigin="2.013,-5.217"/>
         <Label Content="Sign In" HorizontalAlignment="Left" Margin="576,0,0,0" FontSize="18" VerticalAlignment="Top"/>

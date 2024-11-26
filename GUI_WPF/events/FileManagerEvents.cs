@@ -43,6 +43,7 @@ namespace GUI_WPF.events
         private FileTableDataModel _fileTableDataModel;
         private FileManagerService _service;
         private RegistryConfig _registryConfig;
+        private Grid chatManagerGrid;
         #endregion
 
         #region Registered event handlers
@@ -59,10 +60,11 @@ namespace GUI_WPF.events
         public DelegateCommand DownloadFileCommand { get; set; }
         #endregion
 
-        public FileManagerEvents(FileManagerModel fm, FileTableDataModel ftd, Grid fileManagerGrid)
+        public FileManagerEvents(FileManagerModel fm, FileTableDataModel ftd, Grid fileManagerGrid, Grid chatManagerGrid)
         {
             this._model=fm;
             this._fileTableDataModel=ftd;
+            this.chatManagerGrid = chatManagerGrid;
             this._registryConfig = RegistryConfig.Init();
 
             /* Create service instance */
@@ -147,6 +149,9 @@ namespace GUI_WPF.events
 
         private void OnOpenFileManager(Grid fileManagerGrid)
         {
+            /* Close chat manager */
+            chatManagerGrid.Visibility = Visibility.Hidden;
+
             /* Check logged in status */
             string? registryValue = _registryConfig.GetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn");
             bool isLoggedIn = false;
@@ -163,7 +168,7 @@ namespace GUI_WPF.events
             }
 
             /* Show grid */
-            if (isClicked)
+            /*if (isClicked)
             {
                 fileManagerGrid.Visibility = Visibility.Visible;
                 isClicked = !isClicked;
@@ -172,8 +177,9 @@ namespace GUI_WPF.events
             {
                 fileManagerGrid.Visibility = Visibility.Hidden;
                 isClicked = !isClicked;
-            }
+            } */
 
+            fileManagerGrid.Visibility = Visibility.Visible;
 
             /* Raise event */
             FileManagerMenuEvent.Invoke(this, new FileManagerEventArg(_model, _fileTableDataModel));

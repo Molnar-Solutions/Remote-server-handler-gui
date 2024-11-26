@@ -43,6 +43,7 @@ namespace GUI_WPF.events
         private TcpClient _tcpClient;
         private Dispatcher dispatcher;
         private RegistryConfig registryConfig;
+        private Grid fileManagerGrid;
         #endregion
 
         #region Registered event handlers
@@ -54,10 +55,11 @@ namespace GUI_WPF.events
         public DelegateCommand SubmitClientMessage { get; set; }
         #endregion
 
-        public ChatManagerEvents(ChatModel cm, System.Windows.Controls.Grid chatManagerGrid)
+        public ChatManagerEvents(ChatModel cm, System.Windows.Controls.Grid chatManagerGrid, Grid fileManagerGrid)
         {
             this._chatModel= cm;
             this._chatManagerGrid = chatManagerGrid;
+            this.fileManagerGrid = fileManagerGrid;
             this.registryConfig = RegistryConfig.Init();
 
             /* Register commands */
@@ -76,6 +78,9 @@ namespace GUI_WPF.events
 
         private void OnOpenChatMenu()
         {
+            /* Close file manager! */
+            fileManagerGrid.Visibility = Visibility.Hidden;
+
             /* Check logged in status */
             string? registryValue = RegistryConfig.Init().GetConfigValue($"{App.ACTIVE_USER_ID}", "isLoggedIn");
             bool isLoggedIn = false;
@@ -92,6 +97,8 @@ namespace GUI_WPF.events
             }
 
             /* Show grid */
+            _chatManagerGrid.Visibility = Visibility.Visible;
+            /*
             if (isClicked)
             {
                 _chatManagerGrid.Visibility = Visibility.Visible;
@@ -101,7 +108,7 @@ namespace GUI_WPF.events
             {
                 _chatManagerGrid.Visibility = Visibility.Hidden;
                 isClicked = !isClicked;
-            }
+            }*/
         }
         #endregion
 

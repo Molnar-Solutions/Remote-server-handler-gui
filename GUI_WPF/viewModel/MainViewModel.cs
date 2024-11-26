@@ -86,8 +86,8 @@ namespace GUI_WPF.viewModel
             }
 
             this.AuthenticationEvents = new(_model);
-            this.FileManagerEvents = new(_fileManagerModel, _fileTableDataModel, fileManagerGrid);
-            this.ChatManagerEvents = new(_chatModel, chatManagerGrid);
+            this.FileManagerEvents = new(_fileManagerModel, _fileTableDataModel, fileManagerGrid, chatManagerGrid);
+            this.ChatManagerEvents = new(_chatModel, chatManagerGrid, fileManagerGrid);
         }
         #endregion
     }
